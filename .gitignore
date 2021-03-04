@@ -7,7 +7,9 @@ yarn-error.log*
 lerna-debug.log*
 
 # Build files
-build/
+dist/
 
 node_modules/
 .DS_Store
+.env
+package-lock.json
