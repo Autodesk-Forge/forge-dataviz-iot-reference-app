@@ -1,0 +1,43 @@
+FORGE_CLIENT_ID=
+FORGE_CLIENT_SECRET=
+FORGE_ENV=AutodeskProduction
+FORGE_API_URL=https://developer.api.autodesk.com
+
+FORGE_BUCKET=
+ENV=local
+ADAPTER_TYPE=local
+
+
+## Please uncomment the following part if you want to connect to Azure IoTHub and Time Series Insights
+## Connect to Azure IoTHub and Time Series Insights
+# ADAPTER_TYPE=azure
+# AZURE_IOT_HUB_CONNECTION_STRING=
+# AZURE_TSI_ENV=
+# 
+## Azure Service Principle
+# AZURE_CLIENT_ID=
+# AZURE_APPLICATION_SECRET=
+# AZURE_TENANT_ID=
+# AZURE_SUBSCRIPTION_ID=
+#
+## Path to Device Model configuration File
+# DEVICE_MODEL_JSON=
+## End - Connect to Azure IoTHub and Time Series Insights
+
+## Please uncomment the following part if you want to use a CSV file as the time series provider
+# ADAPTER_TYPE=csv
+# CSV_MODEL_JSON=
+# CSV_DEVICE_JSON=
+# CSV_FOLDER=
+# CSV_DATA_START=  #Format: YYYY-MM-DDTHH:MM:SS.000Z
+# CSV_DATA_END=  #Format: YYYY-MM-DDTHH:MM:SS.000Z
+# CSV_DELIMITER="\t"
+# CSV_LINE_BREAK="\n"
+# CSV_TIMESTAMP_COLUMN="time"
+# CSV_FILE_EXTENSION=".csv"
+## End - Please uncomment the following part if you want to use a CSV file as the time series provider
+
+
+
+
+

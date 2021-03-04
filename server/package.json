@@ -1,0 +1,36 @@
+{
+    "name": "server",
+    "version": "0.1.0",
+    "description": "Autodesk Forge Viewer Data Visualization Sample Application (Server)",
+    "main": "localserver.js",
+    "scripts": {
+        "start": "node ./localserver.js --delay 300ms"
+    },
+    "author": "Autodesk Inc",
+    "license": "MIT",
+    "dependencies": {
+        "@azure/arm-iothub": "^4.0.0",
+        "@azure/event-hubs": "^5.3.1",
+        "@azure/identity": "^1.2.3",
+        "@azure/digital-twins": "^1.0.0-preview.1",
+        "@azure/ms-rest-nodeauth": "^3.0.6",
+        "aws-sdk": "^2.708.0",
+        "azure-iothub": "^1.13.0",
+        "body-parser": "^1.19.0",
+        "bufferutil": "^4.0.1",
+        "dotenv": "^8.2.0",
+        "event-stream": "^4.0.1",
+        "express": "4.16.2",
+        "forge-apis": "^0.7.3",
+        "mime": "^2.4.6",
+        "node-rsa": "^1.1.1",
+        "q": "^1.5.1",
+        "three": "0.71.0",
+        "timestring": "^6.0.0",
+        "tween-functions": "^1.2.0",
+        "utf-8-validate": "^5.0.2",
+        "uuid": "^8.3.1",
+        "forge-dataviz-iot-data-modules": "0.1.1-alpha.0"
+    },
+    "devDependencies": {}
+}

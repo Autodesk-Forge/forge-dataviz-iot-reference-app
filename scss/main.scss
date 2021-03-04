@@ -1,0 +1,17 @@
+@import "./components.scss";
+
+.textured-heatmap-playbutton {
+    background-image: url($assetUrlPrefix + "/images/play_button.svg");
+    background-size: contain;
+}
+
+.textured-heatmap-showhide-button {
+    background-image: url($assetUrlPrefix + "/images/visibility.svg");
+    background-size: contain;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+// Import any custom application styling
+@import "./custom.scss";

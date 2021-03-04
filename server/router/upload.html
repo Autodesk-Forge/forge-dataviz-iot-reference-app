@@ -1,0 +1,59 @@
+<form>
+    <div>
+        <label>Select a model to upload and translate:</label>
+        <input type="file" id="file-input" name="model"/>
+    </div>
+    <div id="status"></div>
+    <div id="urn"></div>
+</form>
+<script type="text/javascript">
+
+    // Select your input type file and store it in a variable
+    const input = document.getElementById('file-input');
+
+    // This will upload the file after having read it
+    const upload = (file) => {
+        document.getElementById("status").innerHTML = "Uploading file";
+        fetch('/upload/' + file.name, { // Your POST endpoint
+            method: 'POST',
+            headers: {
+            },
+            body: file
+        }).then(
+            response => response.json()
+        ).then( result => {
+            console.log(result);
+            var urn = result["body"]["urn"];
+            document.getElementById("status").innerHTML = "File uploaded translation started";
+            document.getElementById("urn").innerHTML = "urn:" + urn
+            pollJob(urn);
+        }).catch(
+            error => console.log(error) // Handle the error response object
+        );
+    };
+
+    // Event handler executed when a file is selected
+    const onSelectFile = () => upload(input.files[0]);
+
+    // Add a listener on your input
+    // It will be triggered when a file will be selected
+    input.addEventListener('change', onSelectFile, false);
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function pollJob(urn) {
+        fetch('/translation/' + urn).then(response => response.json()).then(result => {
+            console.log(result);
+            document.getElementById("status").innerHTML = "Translation status: " + result["body"]["status"] +", " + result["body"]["progress"];
+            if (result["body"]["status"] === "pending" || result["body"]["status"] == "inprogress") {
+                sleep(25000).then(() => pollJob(urn));
+            } else {
+                if(result["body"]["status"] === "success") {
+                    location.href = "/";
+                }
+            }
+        });
+    }
+</script>
