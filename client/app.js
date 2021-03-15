@@ -20,7 +20,7 @@ import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
     <BrowserRouter>
-        <AppPage {...{ appData: __app.dataContext }} />
+        <AppPage {...{ appData: __app.dataContext, appContext: ApplicationContext }} />
     </BrowserRouter>,
     document.getElementById("hyperion_container")
 );

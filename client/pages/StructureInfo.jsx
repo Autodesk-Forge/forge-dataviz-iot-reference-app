@@ -6,9 +6,15 @@
  * user experience
  */
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Viewer } from "forge-dataviz-iot-react-components";
+import DataHelper from "./DataHelper";
+import { EventTypes } from "forge-dataviz-iot-react-components";
 import { HyperionToolContainer } from "forge-dataviz-iot-react-components";
+
+class EventBus { }
+
+THREE.EventDispatcher.prototype.apply(EventBus.prototype);
 
 /**
  * @component
@@ -16,7 +22,9 @@ import { HyperionToolContainer } from "forge-dataviz-iot-react-components";
  */
 function StructureInfo(props) {
     const { env, token, docUrn } = props.appData;
-    const [appState, setAppState] = React.useState(null)
+    const eventBusRef = useRef(new EventBus());
+    const [appState, setAppState] = useState({});
+    const selectedLevelRef = useRef();
 
     async function onModelLoaded(viewer, data) {
         const dataVizExt = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
@@ -32,29 +40,44 @@ function StructureInfo(props) {
         }
 
         // Model Structure Info
-        const structureInfo = new Autodesk.DataVisualization.ModelStructureInfo(data.model);
-        const buildingInfo = await structureInfo.generateSurfaceShadingData();
+        let dataHelper = new DataHelper();
+        let shadingData = await dataHelper.createShadingGroupByFloor(data.model, []);
+        const levelInfo = dataHelper.createDeviceTree(shadingData, true);
 
         setAppState({
             viewer,
             dataVizExtn: dataVizExt,
             levelsExt,
-            buildingInfo
+            buildingInfo: shadingData,
+            levelInfo: levelInfo
         });
     }
 
-    // Callback to select floor
-    function onSelectedFloorChange(node) {
-        const levelsExt = appState.levelsExt;
-        const floorSelector = levelsExt.floorSelector;
+    useEffect(() => {
+        eventBusRef.current.addEventListener(EventTypes.LEVELS_TREE_MOUSE_CLICK, (event) => {
+            if (appState.levelsExt) {
+                let floorSelector = appState.levelsExt.floorSelector;
 
-        if (!node) {
-            floorSelector.selectFloor();
+                if (selectedLevelRef.current && selectedLevelRef.current.id == event.data.id) {
+                    floorSelector.selectFloor();
+                    selectedLevelRef.current = null;
+                } else {
+                    if (floorSelector.floorData) {
+                        let floor = floorSelector.floorData.find((item) => item.name == event.data.id);
+                        if (floor) {
+                            floorSelector.selectFloor(floor.index, true);
+                            selectedLevelRef.current = event.data;
+                        }
+                    }
+                }
+            }
+        });
 
-        } else {
-            floorSelector.selectFloor(node.index, true);
+        return function cleanUp() {
+            eventBusRef.current._listeners = {}
         }
-    }
+    }, [appState.levelsExt])
+
 
     return (
         <React.Fragment>
@@ -64,11 +87,14 @@ function StructureInfo(props) {
                 onModelLoaded={onModelLoaded}
                 getToken={async () => await fetch("/api/token").then(res => res.json()).then(data => data.access_token)}
             />
-            <HyperionToolContainer
+            {appState && appState.levelInfo && <HyperionToolContainer
                 {...appState}
+                eventBus={eventBusRef.current}
                 structureToolOnly={true}
                 defaultFloor={{ index: 0, name: "01 - Entry Level" }}
-                updateSelectedFloor={onSelectedFloorChange} />
+                data={appState.levelInfo}
+                selectedGroupNode={selectedLevelRef.current}
+            />}
         </React.Fragment>
     );
 }

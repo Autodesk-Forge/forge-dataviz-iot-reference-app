@@ -52,6 +52,16 @@ var config = {
                         }
                     ]
                 })
+            },
+            {
+                test: /\.svg$/i,
+                use: {
+                    loader: "svg-url-loader", 
+                    options: {
+                        // make loader to behave like url-loader, for all svg files
+                        encoding: "base64",
+                    }
+                }
             }
         ]
     },

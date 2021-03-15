@@ -57,25 +57,25 @@ function Heatmap(props) {
 
     async function onModelLoaded(viewer, data) {
         const dataVizExt = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
+        const DATAVIZEXTN = Autodesk.DataVisualization.Core;
         var styleMap = {};
 
         // Create model-to-style map from style definitions.
         Object.entries(SensorStyleDefinitions).forEach(([type, styleDef]) => {
-            styleMap[type] = new Autodesk.DataVisualization.ViewableStyle(
-                type,
-                Autodesk.DataVisualization.ViewableType.SPRITE,
+            styleMap[type] = new DATAVIZEXTN.ViewableStyle(
+                DATAVIZEXTN.ViewableType.SPRITE,
                 new THREE.Color(styleDef.color),
                 styleDef.url
             );
         });
 
-        const viewableData = new Autodesk.DataVisualization.ViewableData();
+        const viewableData = new DATAVIZEXTN.ViewableData();
         viewableData.spriteSize = 16;
         let startId = 1;
 
         devices.forEach((device) => {
             let style = styleMap[device.type] || styleMap["default"];
-            const viewable = new Autodesk.DataVisualization.SpriteViewable(device.position, style, startId);
+            const viewable = new DATAVIZEXTN.SpriteViewable(device.position, style, startId);
             viewableData.addViewable(viewable);
             startId++;
         });
@@ -97,7 +97,7 @@ function Heatmap(props) {
         const floor = floorData[2];
         levelsExt.floorSelector.selectFloor(floor.index, true);
 
-        const structureInfo = new Autodesk.DataVisualization.ModelStructureInfo(data.model);
+        const structureInfo = new DATAVIZEXTN.ModelStructureInfo(data.model);
         const heatmapData = await structureInfo.generateSurfaceShadingData(devices);
 
         dataVizExt.setupSurfaceShading(data.model, heatmapData);

@@ -1,70 +1,51 @@
-/**
- * This is a sample code to show how to render basic heatmap on the screen
- *
- * Heatmap is the terminology we used to show the corresponding sensor values in the room
- * and this is a step foreward by combine both Dot and ModelStructureInfo to created a combined
- * user experience
- */
 
-import React from "react";
-import { Viewer } from "forge-dataviz-iot-react-components";
-import ApplicationContext from "../../shared/config/ApplicationContext.js";
+import React, { useEffect, useRef, useState } from "react";
+import { BaseApp } from "forge-dataviz-iot-react-components";
+import DataHelper from "./DataHelper";
+import { EventTypes } from "forge-dataviz-iot-react-components";
 
-const SensorStyleDefinitions = {
-    co2: {
-        url: `${ApplicationContext.assetUrlPrefix}/images/co2.svg`,
-        color: 0xffffff,
-    },
-    temperature: {
-        url: `${ApplicationContext.assetUrlPrefix}/images/thermometer.svg`,
-        color: 0xffffff,
-    },
-    default: {
-        url: `${ApplicationContext.assetUrlPrefix}/images/circle.svg`,
-        color: 0xffffff,
-    },
-};
-
-const simulationData = [
+const RAW_DATA = [
     {
         id: "engine1",
         dbIds: [558, 560, 562, 563, 583, 705, 571],
         sensors: [
             {
-                id: "sensor1a",
+                id: "sensor-1",
                 dbId: 558,
-                type: "temperature",
-                sensorTypes: ["temperature"],
+                type: "Temperature",
+                sensorTypes: ["Temperature"],
+                styleId: "fusion",
             },
             {
-                id: "sensor1b",
+                id: "sensor-2",
                 dbId: 560,
-                type: "temperature",
-                sensorTypes: ["temperature"],
+                type: "Temperature",
+                sensorTypes: ["Temperature"],
+                styleId: "single",
             },
             {
-                id: "sensor1c",
+                id: "sensor-3",
                 dbId: 562,
-                type: "temperature",
-                sensorTypes: ["temperature"],
+                type: "Temperature",
+                sensorTypes: ["Temperature"],
             },
             {
-                id: "sensor1d",
+                id: "sensor-4",
                 dbId: 583,
-                type: "temperature",
-                sensorTypes: ["temperature"],
+                type: "Temperature",
+                sensorTypes: ["Temperature"],
             },
             {
                 id: "sensor1e",
                 dbId: 705,
-                type: "temperature",
-                sensorTypes: ["temperature"],
+                type: "Temperature",
+                sensorTypes: ["Temperature"],
             },
             {
-                id: "sensor1e",
+                id: "sensor-5",
                 dbId: 571,
-                type: "temperature",
-                sensorTypes: ["temperature"],
+                type: "Temperature",
+                sensorTypes: ["Temperature"],
             },
         ],
     },
@@ -73,10 +54,10 @@ const simulationData = [
         dbIds: [968, 970, 972, 973, 981, 992, 993],
         sensors: [
             {
-                id: "sensor2",
+                id: "sensor-6",
                 dbId: 968,
-                type: "temperature",
-                sensorTypes: ["temperature"],
+                type: "Temperature",
+                sensorTypes: ["Temperature"],
             },
         ],
     },
@@ -88,10 +69,10 @@ const simulationData = [
                 dbIds: [211, 214, 221, 222, 224, 237, 239],
                 sensors: [
                     {
-                        id: "sensor3",
+                        id: "sensor-7",
                         dbId: 224,
-                        type: "temperature",
-                        sensorTypes: ["temperature"],
+                        type: "Temperature",
+                        sensorTypes: ["Temperature"],
                     },
                 ],
             },
@@ -100,10 +81,10 @@ const simulationData = [
                 dbIds: [255, 258, 265, 266, 268, 281, 283],
                 sensors: [
                     {
-                        id: "sensor4",
+                        id: "sensor-8",
                         dbId: 268,
-                        type: "temperature",
-                        sensorTypes: ["temperature"],
+                        type: "Temperature",
+                        sensorTypes: ["Temperature"],
                     },
                 ],
             },
@@ -112,16 +93,16 @@ const simulationData = [
                 dbIds: [455, 1060, 1062, 1064, 1065],
                 sensors: [
                     {
-                        id: "sensor5a",
+                        id: "sensor-9",
                         dbId: 455,
-                        type: "temperature",
-                        sensorTypes: ["temperature"],
+                        type: "Temperature",
+                        sensorTypes: ["Temperature"],
                     },
                     {
-                        id: "sensor5b",
+                        id: "sensor-10",
                         dbId: 1060,
-                        type: "temperature",
-                        sensorTypes: ["temperature"],
+                        type: "Temperature",
+                        sensorTypes: ["Temperature"],
                     },
                 ],
             },
@@ -129,128 +110,46 @@ const simulationData = [
     },
 ];
 
-/**
- * @component
- * @param {Object} props
- */
+class EventBus { }
+
+THREE.EventDispatcher.prototype.apply(EventBus.prototype);
+
 function EngineSimulation(props) {
-    const { env, token } = props.appData;
-    const docUrn = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Zm9yZ2V0X2h5cGVyaW9uX3Rlc3QvRW5naW5lX1N0YW5kLmR3Zg";
+    const eventBusRef = useRef(new EventBus());
+    const [data, setData] = useState(null);
 
-    async function onModelLoaded(viewer, data) {
-        const dataVizExt = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
-        const {
-            SurfaceShadingData,
-            SurfaceShadingPoint,
-            SurfaceShadingNode,
-            SurfaceShadingGroup,
-        } = Autodesk.DataVisualization;
-        var styleMap = {};
+    const dataRef = useRef();
+    const viewerRef = useRef(null);
 
-        // Create model-to-style map from style definitions.
-        Object.entries(SensorStyleDefinitions).forEach(([type, styleDef]) => {
-            styleMap[type] = new Autodesk.DataVisualization.ViewableStyle(
-                type,
-                Autodesk.DataVisualization.ViewableType.SPRITE,
-                new THREE.Color(styleDef.color),
-                styleDef.url
-            );
+    props.appData.docUrn = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Zm9yZ2V0X2h5cGVyaW9uX3Rlc3QvRW5naW5lX1N0YW5kLmR3Zg";
+    props.appData.adapterType = "synthetic";
+
+    useEffect(() => {
+        eventBusRef.current.addEventListener(EventTypes.MODEL_LOAD_COMPLETED, async function (event) {
+            viewerRef.current = event.data.viewer;
+            let viewer = viewerRef.current;
+
+            let model = event.data.data.model;
+            let dataHelper = new DataHelper();
+
+            let shadingData = await dataHelper.createShadingData(viewer, model, RAW_DATA);
+            let devicePanelData = dataHelper.createDeviceTree(shadingData, true);
+
+            dataRef.current = {
+                shadingData,
+                devicePanelData,
+            };
+            setData(dataRef.current);
+
+            return function cleanUp() {
+                eventBusRef.current._listeners = {};
+            };
         });
-
-        const viewableData = new Autodesk.DataVisualization.ViewableData();
-        viewableData.spriteSize = 16;
-        let startId = 1;
-
-        let devices = [];
-        let heatmapData = new SurfaceShadingData();
-
-        function createNode(item) {
-            let node = new SurfaceShadingNode(item.id, item.dbIds);
-
-            item.sensors.forEach((sensor) => {
-                let shadingPoint = new SurfaceShadingPoint(sensor.id, sensor.position, sensor.sensorTypes);
-
-                // If the position is not specified, derive it from the center of Geometry
-                if (sensor.dbId != undefined && sensor.position == null) {
-                    shadingPoint.positionFromDBId(data.model, sensor.dbId);
-                }
-                devices.push({
-                    id: sensor.id,
-                    position: shadingPoint.position,
-                    type: sensor.type,
-                });
-                node.addPoint(shadingPoint);
-            });
-
-            return node;
-        }
-
-        function createGroup(item) {
-            let group = new SurfaceShadingGroup(item.id);
-
-            item.children.forEach((child) => {
-                if (child.children) {
-                    group.addChild(createGroup(child));
-                } else {
-                    group.addChild(createNode(child));
-                }
-            });
-            return group;
-        }
-
-        simulationData.forEach((item) => {
-            if (item.children) {
-                heatmapData.addChild(createGroup(item));
-            } else {
-                heatmapData.addChild(createNode(item));
-            }
-        });
-
-        devices.forEach((device) => {
-            let style = styleMap[device.type] || styleMap["default"];
-            const viewable = new Autodesk.DataVisualization.SpriteViewable(device.position, style, startId);
-            viewableData.addViewable(viewable);
-            startId++;
-        });
-        await viewableData.finish();
-        dataVizExt.addViewables(viewableData);
-
-        // get FloorInfo
-        heatmapData.initialize(data.model);
-        dataVizExt.setupSurfaceShading(data.model, heatmapData);
-
-        dataVizExt.registerSurfaceShadingColors("co2", [0x000000, 0xff00ff]);
-        dataVizExt.registerSurfaceShadingColors("temperature", [0x000000, 0xff0000]);
-
-        /**
-         * Interface for application to decide what is the current value for the heatmap
-         * @param {string} device device id
-         * @param {string} sensorType sensor type
-         */
-        function getSensorValue(device, sensorType) {
-            // just try to avoid line warning
-            device, sensorType;
-
-            if (/sensor1[a-z]/gi.test(device.id)) {
-                return 1;
-            }
-
-            let value = Math.random();
-            return value;
-        }
-
-        dataVizExt.renderSurfaceShading(["engine1", "engine2"], "temperature", getSensorValue, 300);
-        window.dataVizExt = dataVizExt;
-    }
+    }, []);
 
     return (
         <React.Fragment>
-            <Viewer
-                env={env}
-                docUrn={docUrn}
-                onModelLoaded={onModelLoaded}
-                getToken={async () => await fetch("/api/token").then(res => res.json()).then(data => data.access_token)}
-            />
+            <BaseApp {...props} eventBus={eventBusRef.current} data={data} />
         </React.Fragment>
     );
 }
