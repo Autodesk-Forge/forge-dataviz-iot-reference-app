@@ -10,7 +10,7 @@ module.exports = new webpack.DefinePlugin(
         'ENV': JSON.stringify(env),
         'BUILD_NUMBER': JSON.stringify(buildNumber),
         "STAGE_BASEURL": JSON.stringify(STAGE),
-        "WEBPACK" : JSON.stringify(1)
+        "WEBPACK": JSON.stringify(1)
     }
 );
 

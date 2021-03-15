@@ -48,25 +48,25 @@ function Dot(props) {
 
     async function onModelLoaded(viewer) {
         const dataVizExt = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
+        const DATAVIZEXTN = Autodesk.DataVisualization.Core;
         var styleMap = {};
 
         // Create model-to-style map from style definitions.
         Object.entries(SensorStyleDefinitions).forEach(([type, styleDef]) => {
-            styleMap[type] = new Autodesk.DataVisualization.ViewableStyle(
-                type,
-                Autodesk.DataVisualization.ViewableType.SPRITE,
+            styleMap[type] = new DATAVIZEXTN.ViewableStyle(
+                DATAVIZEXTN.ViewableType.SPRITE,
                 new THREE.Color(styleDef.color),
                 styleDef.url
             );
         });
 
-        const viewableData = new Autodesk.DataVisualization.ViewableData();
+        const viewableData = new DATAVIZEXTN.ViewableData();
         viewableData.spriteSize = 16;
         let startId = 1;
 
         devices.forEach((device) => {
             let style = styleMap[device.type] || styleMap["default"];
-            const viewable = new Autodesk.DataVisualization.SpriteViewable(device.position, style, startId);
+            const viewable = new DATAVIZEXTN.SpriteViewable(device.position, style, startId);
             viewableData.addViewable(viewable);
             startId++;
         });
@@ -74,16 +74,16 @@ function Dot(props) {
         dataVizExt.addViewables(viewableData);
 
         function onItemClick(event) {
-            viewer.select([event.dbId], dataVizExt.sceneModel);
+
         }
 
         function onItemHovering(event) {
             console.log("Show tooltip here", event.dbId);
         }
 
-        const DATAVIZEXTN = Autodesk.DataVisualization;
-        viewer.addEventListener(DATAVIZEXTN.MOUSE_CLICK, onItemClick);
-        viewer.addEventListener(DATAVIZEXTN.MOUSE_HOVERING, onItemHovering);
+        const DataVizCore = Autodesk.DataVisualization.Core;
+        viewer.addEventListener(DataVizCore.MOUSE_CLICK, onItemClick);
+        viewer.addEventListener(DataVizCore.MOUSE_HOVERING, onItemHovering);
     }
 
     return (

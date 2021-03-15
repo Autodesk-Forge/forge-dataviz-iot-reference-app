@@ -1,11 +1,15 @@
-import ApplicationContext from "../../shared/config/ApplicationContext.js";
+import circleSvg from "../../assets/images/circle.svg";
+import circleHighlightedSvg from "../../assets/images/circle_highlighted.svg";
+import temperatureSvg from "../../assets/images/temperature_property.svg";
+import humiditySvg from "../../assets/images/humidity_property.svg";
+import co2Svg from "../../assets/images/co2_property.svg";
 
 export const SpriteSize = 24;
 
 export const SensorStyleDefinitions = {
     default: {
-        url: `${ApplicationContext.assetUrlPrefix}/images/circle.svg`,
-        highlightedUrl: `${ApplicationContext.assetUrlPrefix}/images/circle_highlighted.svg`,
+        url: circleSvg,
+        highlightedUrl: circleHighlightedSvg,
         color: 0xffffff,
         highlightedColor: 0xffffff,
         //You may use this instead of highlightedUrl and highlightedColor to simply color over the regular url image
@@ -24,3 +28,9 @@ export const PropIdGradientMap = {
     Humidity: [0x00f260, 0x0575e6],
     "CO₂": [0x1e9600, 0xfff200, 0xff0000],
 };
+
+export const PropertyIconMap = {
+    Temperature: temperatureSvg,
+    Humidity: humiditySvg,
+    "CO₂": co2Svg,
+}

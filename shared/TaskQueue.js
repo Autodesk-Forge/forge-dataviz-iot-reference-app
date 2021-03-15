@@ -73,8 +73,8 @@ TaskQueue.prototype.onTaskFinished = function () {
 /**
  * Remove the taskqueue to fresh states
  */
-TaskQueue.prototype.reset = function() {
-    while(this.queue.length > 0) {
+TaskQueue.prototype.reset = function () {
+    while (this.queue.length > 0) {
         this.queue.pop();
     };
     this.onGoingTask = 0;
