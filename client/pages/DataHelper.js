@@ -1,6 +1,13 @@
 
 export default class DataHelper {
 
+    /**
+     * 
+     * Checks if the "Autodesk.DataVisualization" extension has already been loaded and loads it otherwise.
+     * 
+     * @param {Autodesk.Viewing.GuiViewer3D} viewer Instance of Forge Viewer
+     * @returns {Object} Reference to Autodesk.DataVisualization.Core
+     */
     async checkExtension(viewer) {
         if (Autodesk && Autodesk.DataVisualization.Core && Autodesk.DataVisualization.Core.SurfaceShadingData) {
             return Autodesk.DataVisualization.Core;
@@ -12,9 +19,13 @@ export default class DataHelper {
 
 
     /**
+     * Converts rawData into {@link Autodesk.DataVisualization.Core.SurfaceShadingData} that can be used to load the application.
      * 
-     * rawDatalooks like this
-    [
+     * @param {Autodesk.Viewing.GuiViewer3D} viewer Instance of Forge Viewer
+     * @param {Model} model Model loaded in Viewer
+     * @param {Object} rawData Corresponds to data to be displayed in the application.
+     * @example rawData
+     * [
         {
             id: "engine1",
             dbIds: [558, 560, 562, 563, 583, 705, 571],
@@ -45,11 +56,9 @@ export default class DataHelper {
                 },
             ],
         }
-    ]
-     * 
-     * 
-     * @param {*} viewer 
-     * @param {*} rawData 
+      ]
+     *
+     @returns {Autodesk.DataVisualization.Core.SurfaceShadingData}
      */
     async createShadingData(viewer, model, rawData) {
         let ns = await this.checkExtension(viewer);
@@ -63,6 +72,11 @@ export default class DataHelper {
 
         let shadingData = new SurfaceShadingData();
 
+        /**
+         * Creates a {@link Autodesk.DataVisualization.Core.SurfaceShadingNode} corresponding to item.
+         * 
+         * @param {Object} item 
+         */
         function createNode(item) {
             let node = new SurfaceShadingNode(item.id, item.dbIds);
 
@@ -79,6 +93,11 @@ export default class DataHelper {
             return node;
         }
 
+        /**
+         * Creates a {@link Autodesk.DataVisualization.Core.SurfaceShadingGroup} corresponding to item.
+         * 
+         * @param {Object} item 
+         */
         function createGroup(item) {
             let group = new SurfaceShadingGroup(item.id);
 
@@ -104,6 +123,12 @@ export default class DataHelper {
     }
 
 
+    /**
+     * Uses the {@link Autodesk.DataVisualization.Core.ModelStructureInfo} to construct {@link Autodesk.DataVisualization.Core.SurfaceShadingData}
+     * 
+     * @param {Model} model Model loaded in viewer
+     * @param {Device[]} deviceList List of devices to be mapped to loaded rooms.
+     */
     async createShadingGroupByFloor(model, deviceList) {
         const structureInfo = new Autodesk.DataVisualization.Core.ModelStructureInfo(model);
         /**
@@ -116,15 +141,13 @@ export default class DataHelper {
 
 
     /**
-     * Constructs a device tree to back device UI.
+     * Constructs a device tree used to load the device UI.
      *
-     * @param {DataStore} dataStore The data store where device models, devices
-     * and their corresponding property data are defined.
      * @param {Autodesk.DataVisualization.Core.LevelRoomsMap} shadingData The level-to-room map.
+     * @param {boolean} usingFullTree When true, constructs a deviceTree that contains all non-empty SurfaceShadingGroups, 
+     * &nbsp;intermediate SurfaceShadingNodes, and SurfaceShading Points. When false, skips intermediate SurfaceShadingNodes.
      *
-     * @returns {DeviceTreeNode[]} The device tree containing all
-     * floors and their corresponding devices in project.
-     * @private
+     * @returns {TreeNode[]} The device tree containing all groups and their corresponding devices.
      */
     createDeviceTree(shadingData, usingFullTree = false) {
         if (usingFullTree) {
@@ -157,10 +180,10 @@ export default class DataHelper {
                 return obj;
             });
 
-            return result.filter(item => Object.keys(item).length);
+            return result.filter(item => Object.keys(item).length); // Skips over empty SurfaceShadingGroups and SurfaceShadingNodes
         } else {
             function traverse(item) {
-                if (item.position) {
+                if (item.position) { //SurfaceShadingPoint
                     return ({
                         id: item.id,
                         name: item.name,
@@ -168,10 +191,10 @@ export default class DataHelper {
                         children: []
                     })
                 }
-                else if (item.shadingPoints && item.shadingPoints.length > 0) {
+                else if (item.shadingPoints && item.shadingPoints.length > 0) { //non-empty SurfaceShadingNode
                     return item.shadingPoints.map(sp => traverse(sp));
                 }
-                else if (item.isGroup) {
+                else if (item.isGroup) { //SurfaceShadingGroup
                     return item.children.map(child => traverse(child));
                 }
             }

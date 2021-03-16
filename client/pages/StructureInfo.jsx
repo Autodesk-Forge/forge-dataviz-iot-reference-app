@@ -91,7 +91,6 @@ function StructureInfo(props) {
                 {...appState}
                 eventBus={eventBusRef.current}
                 structureToolOnly={true}
-                defaultFloor={{ index: 0, name: "01 - Entry Level" }}
                 data={appState.levelInfo}
                 selectedGroupNode={selectedLevelRef.current}
             />}
