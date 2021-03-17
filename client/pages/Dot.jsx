@@ -74,7 +74,7 @@ function Dot(props) {
         dataVizExt.addViewables(viewableData);
 
         function onItemClick(event) {
-
+            
         }
 
         function onItemHovering(event) {

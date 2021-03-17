@@ -1,5 +1,5 @@
 $time_slider_height: 120px;
-$contact_us_card_height: 90px;
+$contact_us_card_height: 80px;
 
 html,
 body {
@@ -24,7 +24,7 @@ div.viewer-container {
     top: #{$time_slider_height};
 }
 
-#Contact_us + div.viewer-container {
+#ContactUsBar + div.viewer-container {
     height: calc(100% - #{$time_slider_height + $contact_us_card_height});
     top: #{$time_slider_height + $contact_us_card_height};
 }
@@ -97,7 +97,7 @@ div.viewer-container {
     flex-direction: column;
 }
 
-#Contact_us + div.viewer-container + #hyperionToolContainer {
+#ContactUsBar + div.viewer-container + #hyperionToolContainer {
     top: #{30px + $time_slider_height + $contact_us_card_height};
 }
 
@@ -105,7 +105,7 @@ div.viewer-container {
     top: #{10px + $time_slider_height};
 }
 
-#Contact_us + div.viewer-container + #hyperionToolContainer + #surfaceShader_Container {
+#ContactUsBar + div.viewer-container + #hyperionToolContainer + #surfaceShader_Container {
     top: #{10px + $time_slider_height + $contact_us_card_height};
 }
 

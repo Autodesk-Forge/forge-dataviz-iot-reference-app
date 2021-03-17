@@ -1,6 +1,9 @@
 const ApplicationContext = require("../../shared/config/ApplicationContext.js");
 
-const App = function(props) {
+const App = function (props) {
+    // Use minified build for 'hyperion.autodesk.io' so we get analytics data.
+    const viewer3dJs = ApplicationContext.env === "prod" ? "viewer3D.min.js" : "viewer3D.js";
+
     return `<html>
     <head>
         <meta charSet="utf-8" />
@@ -14,7 +17,7 @@ const App = function(props) {
         <link rel="stylesheet" href=${ApplicationContext.lmvUrl + "/style.css"} />
         <link rel="stylesheet" href=${ApplicationContext.assetRoot + "/dist/main.bundle.css"} />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" />
-        <script src="${ApplicationContext.lmvUrl + "/viewer3D.js"}" ></script>
+        <script src="${ApplicationContext.lmvUrl}/${viewer3dJs}" ></script>
         <link rel="icon" type="image/png" href="https://www.autodesk.com/favicon.ico" />
     </head>
     <body>
@@ -27,7 +30,6 @@ const App = function(props) {
         </div>
     </body>
 </html>`;
-}
-
+};
 
 module.exports = App;

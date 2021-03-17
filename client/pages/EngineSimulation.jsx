@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import { BaseApp } from "forge-dataviz-iot-react-components";
 import DataHelper from "./DataHelper";
@@ -110,7 +109,7 @@ const RAW_DATA = [
     },
 ];
 
-class EventBus { }
+class EventBus {}
 
 THREE.EventDispatcher.prototype.apply(EventBus.prototype);
 

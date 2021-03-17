@@ -4,7 +4,6 @@
 
 import React, { useRef, useState } from "react";
 import { Viewer } from "forge-dataviz-iot-react-components";
-import ApplicationContext from "../../shared/config/ApplicationContext.js";
 
 import fan00 from "../../assets/images/fan-00.svg";
 import fan01 from "../../assets/images/fan-01.svg";
@@ -166,7 +165,7 @@ function AnimatedSprites(props) {
             fan00
         );
 
-
+        
         fans.forEach((fan) => ductFanStyle.preloadSprite(fan));
 
         const motionStyle = new dataVizExtn.ViewableStyle(
@@ -226,7 +225,7 @@ function AnimatedSprites(props) {
      * @param {Object} data Event data that contains the loaded model.
      */
     async function onModelLoaded(viewer, data) {
-
+        
         const dataVizExtension = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
 
         const viewerDocument = data.model.getDocumentNode().getDocument();

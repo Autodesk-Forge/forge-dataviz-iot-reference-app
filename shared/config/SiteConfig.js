@@ -1,3 +1,6 @@
+//
+// Copyright 2020 Autodesk
+//
 /**
  * This function serves as the configuration when ApplicationContext.js
  * invokes it. As more environments are deemed necessary, they will be
@@ -25,6 +28,7 @@ var SiteConfig = function (env, buildNumber) {
     };
 
     var result = LocalDev;
+    result.env = env; // Preserve 'env' value.
 
     switch (env) {
         case "stage":
