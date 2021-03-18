@@ -33,4 +33,4 @@ export const PropertyIconMap = {
     Temperature: temperatureSvg,
     Humidity: humiditySvg,
     "CO₂": co2Svg,
-}
+};

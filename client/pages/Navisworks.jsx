@@ -16,18 +16,18 @@ const fans = [fan00, fan01, fan02, fan03, fan04, fan05];
 
 const RAW_DATA = [
     {
-        id: "TunnelA",
-        dbIds: [2707],
+        id: "Stadium",
+        dbIds: [8706],
         sensors: [
             {
                 id: "sensor-1",
-                dbId: 2707,
+                dbId: 8706,
                 type: "fan",
                 sensorTypes: ["Temperature"],
             },
             {
                 id: "sensor-2",
-                dbId: 4129,
+                dbId: 10736,
                 type: "fan",
                 sensorTypes: ["Temperature"],
             },
@@ -35,7 +35,7 @@ const RAW_DATA = [
     },
 ];
 
-class EventBus {}
+class EventBus { }
 
 THREE.EventDispatcher.prototype.apply(EventBus.prototype);
 
@@ -60,8 +60,7 @@ function Navisworks(props) {
     const dataRef = useRef();
     const viewerRef = useRef(null);
 
-    props.appData.docUrn =
-        "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aHlwZXJpb24tZGVtby1idWNrZXQvTWVsYm91cm5lJTIwVHVubmVsJTIwVHJpbW1lZC5ud2Q";
+    props.appData.docUrn = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aHlwZXJpb24tZGVtby1idWNrZXQvaWNlJTIwc3RhZGl1bS5ud2Q";
     props.appData.adapterType = "synthetic";
 
     useEffect(() => {
@@ -88,26 +87,26 @@ function Navisworks(props) {
     }, []);
 
     eventBusRef.current.addEventListener("VIEWER_DATA_READY", (event) => {
-        let {dataVizExtn} =  event.data;
+        let { dataVizExtn } = event.data;
 
         let i = 0;
 
         let ids = dataVizExtn.viewableData.viewables.map((viewable) => viewable.dbId);
-        
+
         setInterval(() => {
             dataVizExtn.invalidateViewables(ids, (viewable) => {
-                return {url : fans[i++ % 5]}
+                return { url: fans[i++ % 5] }
             })
         }, 200);
     });
 
     return (
         <React.Fragment>
-            <BaseApp 
-            {...props} 
-            eventBus={eventBusRef.current} 
-            surfaceShadingConfig={surfaceShadingConfig}
-            data={data} />
+            <BaseApp
+                {...props}
+                eventBus={eventBusRef.current}
+                surfaceShadingConfig={surfaceShadingConfig}
+                data={data} />
         </React.Fragment>
     );
 }

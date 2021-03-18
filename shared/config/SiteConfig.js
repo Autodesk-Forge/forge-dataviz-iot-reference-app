@@ -1,6 +1,3 @@
-//
-// Copyright 2020 Autodesk
-//
 /**
  * This function serves as the configuration when ApplicationContext.js
  * invokes it. As more environments are deemed necessary, they will be
@@ -13,7 +10,7 @@ var SiteConfig = function (env, buildNumber) {
     var LocalDev = {
         assetRoot: "http://localhost:9081",
         assetUrlPrefix: "http://localhost:9081/assets",
-        lmvUrl: "https://autodeskviewer.com/viewers-dev/feature/hyperion",
+        lmvUrl: "https://autodeskviewer.com/viewers/7.39",
         baseUrl: "",
     };
 
