@@ -49,8 +49,9 @@ http://localhost:9000
 ### Signing up for a Forge account and creating a Forge app
 
 1. Go to https://forge.autodesk.com/
-   a. Sign in if you have an account
-   b. Create an account if you don't have one
+
+    - Sign in if you have an account
+    - Create an account if you don't have one
 2. Select your `avatar` on the top/right corner and choose `My Apps`
    ![My Avatar/My Apps](./docs/my_app.png)
 3. Click `Create App >` button on the top/right.
