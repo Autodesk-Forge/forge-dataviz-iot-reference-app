@@ -1,13 +1,7 @@
 import { _ } from "lodash";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
-function uuidv4() {
-    return uuid.v4();
-}
-
-var Utility = {};
-
-Utility.timeEqual = function (a, b) {
+function timeEqual(a, b) {
     return a && b && a.getTime() == b.getTime();
 };
 
@@ -16,7 +10,7 @@ Utility.timeEqual = function (a, b) {
  * @param {Date} time A Date object
  * @returns {number} Time value expressed in Unix Epoch seconds
  */
-Utility.getTimeInEpochSeconds = function (time) {
+function getTimeInEpochSeconds(time) {
     const epochSeconds = new Date(time).getTime() / 1000.0;
     return ~~epochSeconds; // Equivalent to Math.floor()
 };
@@ -32,7 +26,7 @@ Utility.getTimeInEpochSeconds = function (time) {
  *
  * @returns {{ min: number, max: number }} The padding value range.
  */
-Utility.getPaddedRange = function (series, percentage = 0) {
+function getPaddedRange(series, percentage = 0) {
     let min = series[0] || Infinity;
     let max = series[0] || -Infinity;
 
@@ -62,7 +56,7 @@ Utility.getPaddedRange = function (series, percentage = 0) {
  * @returns {number} The index of an entry in the array whose
  * value is the closest to 'entry'.
  */
-Utility.findClosestIndex = function (entries, entry) {
+function findClosestIndex(entries, entry) {
     let result = 0;
     let diff = Math.abs(entries[0] - entry);
 
@@ -77,7 +71,7 @@ Utility.findClosestIndex = function (entries, entry) {
     return result;
 };
 
-Utility.getClosestValue = function (av, entry, propName = "avgValues") {
+function getClosestValue(av, entry, propName = "avgValues") {
     let tsValues = av.tsValues;
     let values = av[propName];
 
@@ -107,7 +101,7 @@ Utility.getClosestValue = function (av, entry, propName = "avgValues") {
     }
 };
 
-Utility.clamp = function (value, lower, upper) {
+function clamp(value, lower, upper) {
     if (value == undefined) {
         return lower;
     }
@@ -125,7 +119,7 @@ Utility.clamp = function (value, lower, upper) {
  * Convert ShadingData to DigitalTwinGraph
  * @param {SurfaceShadingData} surfaceShadingData Data tree
  */
-Utility.convertSurfaceShadingDataToDigitalTwinGraph = (surfaceShadingData) => {
+function convertSurfaceShadingDataToDigitalTwinGraph(surfaceShadingData) {
     surfaceShadingData;
     let twinGraph = {
         digitalTwinsFileInfo: {
@@ -250,4 +244,12 @@ Utility.convertSurfaceShadingDataToDigitalTwinGraph = (surfaceShadingData) => {
     return twinGraph;
 };
 
-module.exports = Utility;
+export {
+    timeEqual,
+    getTimeInEpochSeconds,
+    getPaddedRange,
+    findClosestIndex,
+    getClosestValue,
+    clamp,
+    convertSurfaceShadingDataToDigitalTwinGraph
+}
