@@ -21,93 +21,12 @@ This sample application demonstrates the functionality of the Forge Data Visuali
 
 ## Setup
 
-### Install nodejs (version 12+)
+1. To setup your Forge account, follow this step-by-step tutorial: [GET STARTED WITH FORGE IN 3 STEPS](https://forge.autodesk.com/developer/start-now/signup)
 
-Please download the nodejs package from : https://nodejs.org/en/download/
-
-### Git clone
-
-```console
-git clone https://github.com/Autodesk-Forge/forge-dataviz-iot-reference-app.git
-```
-
-### Run the App with our public model and access token
-
-Yes, you are right. Just one command to get it up and running!
-
-```console
-cd forge-dataviz-iot-reference-app
-npm install
-npm run dev
-```
-
-Open your browser:
-http://localhost:9000
-
-## For Advanced Users
-
-### Signing up for a Forge account and creating a Forge app
-
-1. Go to https://forge.autodesk.com/
-
-    - Sign in if you have an account
-    - Create an account if you don't have one
-2. Select your `avatar` on the top/right corner and choose `My Apps`
-   ![My Avatar/My Apps](./docs/my_app.png)
-3. Click `Create App >` button on the top/right.
-4. Select `API`
-   Misc API
-5. Add App Information:
-   App Name
-   App Description
-   Callback URL
-   Your Website URL
-6. Click `Create APP` Button
-7. Once it's finished, you will get the `Client Id` and `Client Secret`
-8. For local development the simplest way is to copy `server/env_template` to `.env` in the same folder.
-9. Open `.env` file with text editor or IDE
-
-    - Copy and paste the `Client Id` from Step 7 as the value for `FORGE_CLIENT_ID`
-
-    - Copy and paste the `Client Secret` from Step 7 as the value for `FORGE_CLIENT_SECRET`
-
-    - Add a value for `FORGE_BUCKET`. Remember `FORGE_BUCKET` is unique to all users.
-      You must give it a unique name. For example - `yourappname.yourwebsite` url
-
-    - Save the changes to `.env` file
-
-```console
-#Start the app with ENV=local like this
-# For Windows
-set ENV=local && npm run dev
-
-# For Mac/Unix/Linux
-ENV=local npm run dev
-```
-
-For a complete step-by-step walk through, follow this tutorial: [GET STARTED WITH FORGE IN 3 STEPS](https://forge.autodesk.com/developer/start-now/signup)
+2. Next, follow the developer's guide - https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/introduction/
 
 
-### Setting up a CSV data adapter locally.
-Use CSV files as the Time Series datasource by providing the following configuration values in a _.env_ file:
-
-* Change the `ADAPTER_TYPE` to `csv`.
-* Set `CSV_MODEL_JSON` to the model file location. For example content format, please refer to: [device-models.json](./server/gateways/synthetic-data/device-models.json)
-* Set `CSV_DEVICE_JSON` to the device file location. For example content format, please refer to: [devices.json](./server/gateways/synthetic-data/devices.json)
-* Set `CSV_FOLDER` to the CSV folder/directory location. For example content format, please refer to: [Hyperion-1.csv](./server/gateways/csv/Hyperion-1.csv)
-* Provide Start and End data for the CSV file using `CSV_DATA_END` and `CSV_DATA_START`. These values will override the timeline. Format: **YYYY-MM-DDTHH:MM:SS.000Z**
-* (Optional) Set the `CSV_DELIMITER`. The default is `\t`.
-* (Optional) Set the `CSV_LINE_BREAK`. The default is `\n`.
-* (Optional) Set the `CSV_TIMESTAMP_COLUMN`. The default is `time`.
-* (Optional) Set the `CSV_FILE_EXTENSION`. The default is `.csv`.
-
-### Migrating to the Azure Data Adapter
-
-Please read https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/advanced_topics/migrate_to_azure/
-
-### Uploading your Revit model
-
-You can also upload your own model using by following these [instructions](https://dev.forge.autodesk.com/en/docs/dataviz/v1/developers_guide/quickstart/replace_model/).
+## Advanced Users
 
 ### Customization options
 
@@ -118,7 +37,7 @@ If you'd like to add your own customization on top of our baseline, then you can
 -   _server/CustomRouter.js_ : Override or add new API routes.
 
 ## Further Reading
-https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/introduction/
+API Reference - https://forge.autodesk.com/en/docs/dataviz/v1/reference/UI/
 
 ## License
 This sample app uses an [MIT License](LICENSE)
