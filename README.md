@@ -4,8 +4,8 @@
 
 This sample application demonstrates the functionality of the Forge Data Visualization extension. To learn more about the extension and the features it offers, check out https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/introduction/overview/.
 
-
 ## Directory Structure
+
     .
     ├── assets                  # Static svg and png files
     ├── client                  # Client-side code + configuration
@@ -21,10 +21,13 @@ This sample application demonstrates the functionality of the Forge Data Visuali
 
 ## Setup
 
-1. To setup your Forge account, follow this step-by-step tutorial: [GET STARTED WITH FORGE IN 3 STEPS](https://forge.autodesk.com/developer/start-now/signup)
+### Prerequisite
 
-2. Next, follow the developer's guide - https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/introduction/
+To successfully run this _IoT Reference App_, you need a _Forge account_. To setup your Forge account, simply follow [this step-by-step tutorial](https://forge.autodesk.com/developer/start-now/signup).
 
+### Running the reference app
+
+You can find a comprehensive steps of setting up this _IoT Reference App_ in [this Forge developer's guide](https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/quickstart/running_the_application/).
 
 ## Advanced Users
 
@@ -37,7 +40,9 @@ If you'd like to add your own customization on top of our baseline, then you can
 -   _server/CustomRouter.js_ : Override or add new API routes.
 
 ## Further Reading
+
 API Reference - https://forge.autodesk.com/en/docs/dataviz/v1/reference/UI/
 
 ## License
+
 This sample app uses an [MIT License](LICENSE)
