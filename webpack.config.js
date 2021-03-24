@@ -38,6 +38,15 @@ var config = {
                 }
             },
             {
+                test: /forge-dataviz-iot-react-component.*.jsx?$/,
+                loader: "babel-loader",
+                exclude: Path.resolve(__dirname, "node_modules", "forge-dataviz-iot-react-components", "node_modules"),
+                query: {
+                    presets: ["react", "es2015"],
+                    plugins: ["transform-object-rest-spread"]
+                }
+            },
+            {
                 test: /\.(css|sass|scss)$/,
                 use: ExtractTextPlugin.extract({
                     use: [
