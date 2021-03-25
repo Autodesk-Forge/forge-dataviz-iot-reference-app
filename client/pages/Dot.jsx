@@ -1,7 +1,14 @@
+/**
+ * This sample illustrates how to add Sprite Viewables.
+ */
+
 import React from "react";
 import { Viewer } from "forge-dataviz-iot-react-components";
 import ApplicationContext from "../../shared/config/ApplicationContext.js";
 
+/**
+ * @type {SensorStyleDefinitions}
+ */
 const SensorStyleDefinitions = {
     co2: {
         url: `${ApplicationContext.assetUrlPrefix}/images/co2.svg`,
@@ -41,11 +48,21 @@ const devices = [
 /**
  * An example illustrating how to add viewables to the scene.
  * @component
+ * @memberof Autodesk.DataVisualization.Examples
  * @param {Object} props
+ * @param {Object} props.appData Data passed to the Dot Page.
+ * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
+ * @param {string} props.appData.docUrn Document URN of model
  */
 function Dot(props) {
-    const { env, token, docUrn } = props.appData;
+    const { env, docUrn } = props.appData;
 
+    /**
+     * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent
+     * when a model has been completely loaded in the viewer.
+     *
+     * @param {Autodesk.Viewing.GuiViewer3D} viewer The viewer in which the model is loaded.
+     */
     async function onModelLoaded(viewer) {
         const dataVizExt = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
         const DATAVIZEXTN = Autodesk.DataVisualization.Core;
@@ -73,10 +90,18 @@ function Dot(props) {
         await viewableData.finish();
         dataVizExt.addViewables(viewableData);
 
+        /**
+         * Called when a user clicks on a Sprite Viewable
+         * @param {Event} event 
+         */
         function onItemClick(event) {
-            
+
         }
 
+        /**
+         *  Called when a user hovers over a Sprite Viewable 
+         * @param {Event} event 
+         */
         function onItemHovering(event) {
             console.log("Show tooltip here", event.dbId);
         }

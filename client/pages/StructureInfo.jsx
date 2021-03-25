@@ -19,13 +19,25 @@ THREE.EventDispatcher.prototype.apply(EventBus.prototype);
 /**
  * @component
  * @param {Object} props
+ * @param {Object} props.appData Data passed to application.
+ * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
+ * @param {string} props.appData.docUrn Document URN of model
+ * 
+ * @memberof Autodesk.DataVisualization.Examples
  */
 function StructureInfo(props) {
-    const { env, token, docUrn } = props.appData;
+    const { env, docUrn } = props.appData;
     const eventBusRef = useRef(new EventBus());
     const [appState, setAppState] = useState({});
     const selectedLevelRef = useRef();
 
+    /**
+     * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent
+     * when a model has been completely loaded in the viewer.
+     *
+     * @param {Autodesk.Viewing.GuiViewer3D} viewer The viewer in which the model is loaded.
+     * @param {Object} data Event data that contains the loaded model.
+     */
     async function onModelLoaded(viewer, data) {
         const dataVizExt = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
 
@@ -72,10 +84,6 @@ function StructureInfo(props) {
                 }
             }
         });
-
-        return function cleanUp() {
-            eventBusRef.current._listeners = {}
-        }
     }, [appState.levelsExt])
 
 

@@ -1,3 +1,7 @@
+/**
+ * This sample illustrates adding Sprite viewables and rendering a heatmap on a NWD file.
+ */
+
 import React, { useEffect, useRef, useState } from "react";
 import { BaseApp } from "forge-dataviz-iot-react-components";
 import DataHelper from "./DataHelper";
@@ -10,7 +14,7 @@ import fan03 from "../../assets/images/fan-03.svg";
 import fan04 from "../../assets/images/fan-04.svg";
 import fan05 from "../../assets/images/fan-04.svg";
 
-import { SpriteSize, SensorStyleDefinitions, PropIdGradientMap, PropertyIconMap } from "../config/SensorStyles.js";
+import { SpriteSize, SensorStyleDefinitions, PropIdGradientMap } from "../config/SensorStyles.js";
 
 const fans = [fan00, fan01, fan02, fan03, fan04, fan05];
 
@@ -53,6 +57,19 @@ const surfaceShadingConfig = {
     gradientSetting: PropIdGradientMap
 };
 
+/**
+ * @memberof Autodesk.DataVisualization.Examples
+ * 
+ * @param {Object} props 
+ * @param {Object} props.appData Data passed to the Navisworks.
+ * @param {("AutodeskStaging"|"AutodeskProduction")} [props.appData.env] Forge API environment
+ * @param {string} props.appData.docUrn Document URN of model
+ * @param {string} props.appData.adapterType Corresponds to Data Adapter used to query data. i.e - synthetic, azure etc.
+ * @param {"derivativeV2"|"derivativeV2_EU"|"modelDerivativeV2"|"fluent"|"D3S"|"D3S_EU"} [props.appData.api] Please refer to LMV documentation for more information.
+ * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
+ * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link Autodesk.DataVisualization.Data.DataAdapter}
+ * 
+ */
 function Navisworks(props) {
     const eventBusRef = useRef(new EventBus());
     const [data, setData] = useState(null);
@@ -79,14 +96,10 @@ function Navisworks(props) {
                 devicePanelData,
             };
             setData(dataRef.current);
-
-            return function cleanUp() {
-                eventBusRef.current._listeners = {};
-            };
         });
     }, []);
 
-    eventBusRef.current.addEventListener("VIEWER_DATA_READY", (event) => {
+    eventBusRef.current.addEventListener(EventTypes.VIEWABLES_LOADED, (event) => {
         let { dataVizExtn } = event.data;
 
         let i = 0;

@@ -1,3 +1,7 @@
+/**
+ * This sample illustrates how to add a heatmap to groups of dbIds.
+ */
+
 import React, { useEffect, useRef, useState } from "react";
 import { BaseApp } from "forge-dataviz-iot-react-components";
 import DataHelper from "./DataHelper";
@@ -109,10 +113,23 @@ const RAW_DATA = [
     },
 ];
 
-class EventBus {}
+class EventBus { }
 
 THREE.EventDispatcher.prototype.apply(EventBus.prototype);
 
+/**
+ * 
+ * @param {Object} props 
+ * @param {Object} props.appData Data passed to the EngineSimulation.
+ * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
+ * @param {string} props.appData.docUrn Document URN of model
+ * @param {string} props.appData.adapterType Corresponds to Data Adapter used to query data. i.e - synthetic, azure etc.
+ * @param {"derivativeV2"|"derivativeV2_EU"|"modelDerivativeV2"|"fluent"|"D3S"|"D3S_EU"} [props.appData.api] Please refer to LMV documentation for more information.
+ * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
+ * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link Autodesk.DataVisualization.Data.DataAdapter}
+ * 
+ * @memberof Autodesk.DataVisualization.Examples
+ */
 function EngineSimulation(props) {
     const eventBusRef = useRef(new EventBus());
     const [data, setData] = useState(null);
@@ -139,10 +156,6 @@ function EngineSimulation(props) {
                 devicePanelData,
             };
             setData(dataRef.current);
-
-            return function cleanUp() {
-                eventBusRef.current._listeners = {};
-            };
         });
     }, []);
 

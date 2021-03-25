@@ -13,6 +13,19 @@ import StructureInfo from "./StructureInfo.jsx";
 import Navisworks from "./Navisworks.jsx";
 import CustomPage from "./CustomPage.jsx";
 
+/**
+ * 
+ * @param {Object} props 
+ * @param {Object} props.appData Data passed to the application.
+ * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
+ * @param {string} props.appData.docUrn Document URN of model
+ * @param {string} props.appData.adapterType Corresponds to Data Adapter used to query data. i.e - synthetic, azure etc.
+ * @param {"derivativeV2"|"derivativeV2_EU"|"modelDerivativeV2"|"fluent"|"D3S"|"D3S_EU"} [props.appData.api] Please refer to LMV documentation for more information.
+ * @param {string} [props.appData.dataStart] Start date for provided CSV data in ISO string format.
+ * @param {string} [props.appData.dataEnd] End date for provided CSV data in ISO string format.
+ * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
+ * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link Autodesk.DataVisualization.Data.DataAdapter}
+ */
 function App(props) {
     return (
         <div className="outer-container">

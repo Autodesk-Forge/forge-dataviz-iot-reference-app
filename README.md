@@ -41,7 +41,7 @@ If you'd like to add your own customization on top of our baseline, then you can
 
 ## Further Reading
 
-API Reference - https://forge.autodesk.com/en/docs/dataviz/v1/reference/UI/
+API Reference - https://forge.autodesk.com/en/docs/dataviz/v1/reference/Core/
 
 ## License
 

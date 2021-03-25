@@ -17,6 +17,21 @@ class EventBus { }
 
 THREE.EventDispatcher.prototype.apply(EventBus.prototype);
 
+/**
+ * 
+ * @param {Object} props 
+ * @param {Object} props.appData Data passed to the BaseApp.
+ * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
+ * @param {string} props.appData.docUrn Document URN of model
+ * @param {string} props.appData.adapterType Corresponds to Data Adapter used to query data. i.e - synthetic, azure etc.
+ * @param {"derivativeV2"|"derivativeV2_EU"|"modelDerivativeV2"|"fluent"|"D3S"|"D3S_EU"} [props.appData.api] Please refer to LMV documentation for more information.
+ * @param {string} [props.appData.dataStart] Start date for provided CSV data in ISO string format.
+ * @param {string} [props.appData.dataEnd] End date for provided CSV data in ISO string format.
+ * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
+ * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link Autodesk.DataVisualization.Data.DataAdapter}
+ * 
+ * @memberof Autodesk.DataVisualization.Examples
+ */
 function ReferenceApp(props) {
 
     const eventBusRef = useRef(new EventBus());
@@ -60,6 +75,11 @@ function ReferenceApp(props) {
                 // event.hasStopped = true;
             })
 
+            /**
+             * Called when a user has selected a level in the {@link Autodesk.DataVisualization.UI.LevelsTree} or expanded/closed a 
+             * grouping in {@link Autodesk.DataVisualization.UI.DeviceTree}
+             * @param {Event} event 
+             */
             function handleNodeChange(event) {
                 if (levelsExt) {
                     let { selectedNodeId } = appStateRef.current;
@@ -124,10 +144,6 @@ function ReferenceApp(props) {
                 devicePanelData
             };
             setData(dataRef.current);
-
-            return function cleanUp() {
-                eventBusRef.current._listeners = {}
-            }
         });
     }, []);
 

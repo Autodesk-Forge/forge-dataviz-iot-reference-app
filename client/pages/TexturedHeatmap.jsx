@@ -10,6 +10,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Viewer } from "forge-dataviz-iot-react-components";
 import ApplicationContext from "../../shared/config/ApplicationContext.js";
 
+/**
+ * Defines the two additional toolbar icons - play button and eye icon to show/hide sensors
+ */
 class TexturedHeatmapToolbarExtension extends Autodesk.Viewing.Extension {
     constructor(viewer, options) {
         super(viewer, options);
@@ -102,6 +105,12 @@ const sensorDescriptors = {
     },
 };
 
+/**
+ * Returns a random normalized sensor value used to render the heatmap shading.
+ * 
+ * @param {string} sensorName 
+ * @param {string} sensorType 
+ */
 const getNormalizedSensorValue = function (sensorName, sensorType) {
     // Returns a normalized value based on the min/max temperatures
     return Math.random();
@@ -110,9 +119,13 @@ const getNormalizedSensorValue = function (sensorName, sensorType) {
 /**
  * @component
  * @param {Object} props
+ * @param {Object} props.appData Data passed to TexturedHeatmap.
+ * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
+ * @param {string} props.appData.docUrn Document URN of model
+ * @memberof Autodesk.DataVisualization.Examples
  */
 function TexturedHeatMap(props) {
-    const { env, token, docUrn } = props.appData;
+    const { env, docUrn } = props.appData;
     const [dataVizExt, setDataVizExt] = useState(null);
     const [sensorsVisible, setSensorsVisible] = useState(true);
 
@@ -277,7 +290,7 @@ function TexturedHeatMap(props) {
 
     /**
      * Interface for application to decide what is the current value for the heatmap
-     * @param {SurfaceShadingPoint} shadingPoint shading point that represents a device
+     * @param {Autodesk.DataVisualization.Core.SurfaceShadingPoint} shadingPoint shading point that represents a device
      * @param {string} sensorType sensor type (in this case, "temperature")
      */
     function getSensorValue(shadingPoint, sensorType) {
@@ -308,7 +321,7 @@ function TexturedHeatMap(props) {
      * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent
      * when a model has been completely loaded in the viewer.
      *
-     * @param {Viewer3D} viewer The viewer in which the model is loaded.
+     * @param {Autodesk.Viewing.GuiViewer3D} viewer The viewer in which the model is loaded.
      * @param {Object} data Event data that contains the loaded model.
      */
     async function onModelLoaded(viewer, data) {

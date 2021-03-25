@@ -108,6 +108,12 @@ const sensorPositions = {
 /**
  * @component
  * @param {Object} props
+ * @param {Object} props.appData Data passed to the AnimatedSprites.
+ * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
+ * @param {string} props.appData.docUrn Document URN of model
+ * 
+ * @memberof Autodesk.DataVisualization.Examples
+ * @alias Autodesk.DataVisualization.Examples.AnimatedSprites
  */
 function AnimatedSprites(props) {
     const { env, docUrn } = props.appData;
@@ -119,18 +125,8 @@ function AnimatedSprites(props) {
     /**
      * Generates simulation data used for this sample app
      *
-     * @returns {Object} The resulting simulation data in the following form:
-     *
-     *  const obj = [
-     *      {
-     *          id: "Cafeteria",
-     *          position: { x: -143.3017, y: 87.1875, z: -16.9196 },
-     *          type: "thermometer",
-     *          sensorTypes: ["temperature"],
-     *      },
-     *      ...
-     *  ];
-     *
+     * @returns {Array.<SimulationData>} The resulting array of simulation data objects.
+     * @alias Autodesk.DataVisualization.Examples.AnimatedSprites#generateSimulationData
      *
      */
     function generateSimulationData() {
@@ -151,8 +147,9 @@ function AnimatedSprites(props) {
      * Generates viewables to be added to the view. These viewables are sprite-based objects
      * in the 3D viewer canvas, each representing a physical sensor in the real world.
      *
-     * @param {Object} dataItems The simulation data generated in 'generateSimulationData'.
-     * @returns {ViewableData} The resulting viewable data that carries all viewables.
+     * @param {Array.<SimulationData>} dataItems The simulation data generated in 'generateSimulationData'.
+     * @returns {Autodesk.DataVisualization.Core.ViewableData} The resulting viewable data that carries all viewables.
+     * @alias Autodesk.DataVisualization.Examples.AnimatedSprites#generateViewableData
      */
     async function generateViewableData(dataItems) {
         // Create a visual style shared by all the thermometers since they're the same type.
@@ -165,7 +162,7 @@ function AnimatedSprites(props) {
             fan00
         );
 
-        
+
         fans.forEach((fan) => ductFanStyle.preloadSprite(fan));
 
         const motionStyle = new dataVizExtn.ViewableStyle(
@@ -211,6 +208,12 @@ function AnimatedSprites(props) {
         return viewableData;
     }
 
+    /**
+     * Determines a random set of viewable ids that will be animated.
+     * 
+     * @param {Autodesk.DataVisualization.Core.SpriteViewable[]} viewables 
+     * @returns {number[]}
+     */
     function getViewableIdsToAnimate(viewables) {
         let indices = viewables.map((v) => v.dbId);
         indices = indices.sort(() => Math.random() - 0.5); // Shuffle the list.
@@ -221,8 +224,9 @@ function AnimatedSprites(props) {
      * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent
      * when a model has been completely loaded in the viewer.
      *
-     * @param {Viewer3D} viewer The viewer in which the model is loaded.
+     * @param {Autodesk.Viewing.GuiViewer3D} viewer The viewer in which the model is loaded.
      * @param {Object} data Event data that contains the loaded model.
+     * @alias Autodesk.DataVisualization.Examples.AnimatedSprites#onModelLoaded
      */
     async function onModelLoaded(viewer, data) {
         

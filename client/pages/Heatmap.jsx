@@ -1,8 +1,8 @@
 /**
- * This is a sample code to show how to render basic heatmap on the screen
+ * This is a sample code to show how to render a basic heatmap on the screen
  *
- * Heatmap is the terminology we used to show the corresponding sensor values in the room
- * and this is a step foreward by combine both Dot and ModelStructureInfo to created a combined
+ * Heatmap is the terminology we use to show the corresponding sensor values in the room
+ * and this is a step foreward by combining both Dot and ModelStructureInfo to create a combined
  * user experience
  */
 
@@ -10,6 +10,9 @@ import React from "react";
 import { Viewer } from "forge-dataviz-iot-react-components";
 import ApplicationContext from "../../shared/config/ApplicationContext.js";
 
+/**
+ * @type {SensorStyleDefinitions}
+ */
 const SensorStyleDefinitions = {
     co2: {
         url: `${ApplicationContext.assetUrlPrefix}/images/co2.svg`,
@@ -51,10 +54,23 @@ const devices = [
 /**
  * @component Sample heatmap code
  * @param {Object} props
+ * @param {Object} props 
+ * @param {Object} props.appData Data passed to the application.
+ * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
+ * @param {string} props.appData.docUrn Document URN of model
+ * 
+ * @memberof Autodesk.DataVisualization.Examples
  */
 function Heatmap(props) {
-    const { env, token, docUrn } = props.appData;
+    const { env, docUrn } = props.appData;
 
+    /**
+     * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent
+     * when a model has been completely loaded in the viewer.
+     *
+     * @param {Autodesk.Viewing.GuiViewer3D} viewer The viewer in which the model is loaded.
+     * @param {Object} data Event data that contains the loaded model.
+     */
     async function onModelLoaded(viewer, data) {
         const dataVizExt = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
         const DATAVIZEXTN = Autodesk.DataVisualization.Core;
@@ -106,7 +122,8 @@ function Heatmap(props) {
         dataVizExt.registerSurfaceShadingColors("temperature", [0xff0000, 0x0000ff]);
 
         /**
-         * Interface for application to decide what is the current value for the heatmap
+         * Interface for application to decide what the current value for the heatmap is.
+         * 
          * @param {string} device device id
          * @param {string} sensorType sensor type
          */

@@ -6,6 +6,9 @@ import co2Svg from "../../assets/images/co2_property.svg";
 
 export const SpriteSize = 24;
 
+/**
+ * @type {SensorStyleDefinitions}
+ */
 export const SensorStyleDefinitions = {
     default: {
         url: circleSvg,
