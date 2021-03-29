@@ -58,8 +58,9 @@ const surfaceShadingConfig = {
 };
 
 /**
- * @memberof Autodesk.DataVisualization.Examples
+ * An example illustrating how to render sprite viewable and a heatmap for a NWD file. Can be viewed at: https://hyperion.autodesk.io/navisworks
  * 
+ * @component
  * @param {Object} props 
  * @param {Object} props.appData Data passed to the Navisworks.
  * @param {("AutodeskStaging"|"AutodeskProduction")} [props.appData.env] Forge API environment
@@ -67,8 +68,9 @@ const surfaceShadingConfig = {
  * @param {string} props.appData.adapterType Corresponds to Data Adapter used to query data. i.e - synthetic, azure etc.
  * @param {"derivativeV2"|"derivativeV2_EU"|"modelDerivativeV2"|"fluent"|"D3S"|"D3S_EU"} [props.appData.api] Please refer to LMV documentation for more information.
  * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
- * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link Autodesk.DataVisualization.Data.DataAdapter}
+ * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link DataAdapter}
  * 
+ * @memberof Autodesk.DataVisualization.Examples
  */
 function Navisworks(props) {
     const eventBusRef = useRef(new EventBus());

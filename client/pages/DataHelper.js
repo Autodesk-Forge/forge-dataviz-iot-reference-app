@@ -18,7 +18,7 @@ export default class DataHelper {
 
 
     /**
-     * Converts rawData into {@link Autodesk.DataVisualization.Core.SurfaceShadingData} that can be used to load the application.
+     * Converts rawData into {@link SurfaceShadingData} that can be used to load the application.
      * 
      * @param {Autodesk.Viewing.GuiViewer3D} viewer Instance of Forge Viewer
      * @param {Model} model Model loaded in Viewer
@@ -57,7 +57,7 @@ export default class DataHelper {
         }
       ]
      *
-     @returns {Autodesk.DataVisualization.Core.SurfaceShadingData}
+     @returns {SurfaceShadingData}
      */
     async createShadingData(viewer, model, rawData) {
         let ns = await this.checkExtension(viewer);
@@ -72,7 +72,7 @@ export default class DataHelper {
         let shadingData = new SurfaceShadingData();
 
         /**
-         * Creates a {@link Autodesk.DataVisualization.Core.SurfaceShadingNode} corresponding to item.
+         * Creates a {@link SurfaceShadingNode} corresponding to item.
          * 
          * @param {Object} item 
          */
@@ -93,7 +93,7 @@ export default class DataHelper {
         }
 
         /**
-         * Creates a {@link Autodesk.DataVisualization.Core.SurfaceShadingGroup} corresponding to item.
+         * Creates a {@link SurfaceShadingGroup} corresponding to item.
          * 
          * @param {Object} item 
          */
@@ -123,7 +123,7 @@ export default class DataHelper {
 
 
     /**
-     * Uses the {@link Autodesk.DataVisualization.Core.ModelStructureInfo} to construct {@link Autodesk.DataVisualization.Core.SurfaceShadingData}
+     * Uses the {@link ModelStructureInfo} to construct {@link SurfaceShadingData}
      * 
      * @param {Model} model Model loaded in viewer
      * @param {Device[]} deviceList List of devices to be mapped to loaded rooms.
@@ -142,7 +142,7 @@ export default class DataHelper {
     /**
      * Constructs a device tree used to load the device UI.
      *
-     * @param {Autodesk.DataVisualization.Core.LevelRoomsMap} shadingData The level-to-room map.
+     * @param {LevelRoomsMap} shadingData The level-to-room map.
      * @param {boolean} usingFullTree When true, constructs a deviceTree that contains all non-empty SurfaceShadingGroups, 
      * &nbsp;intermediate SurfaceShadingNodes, and SurfaceShading Points. When false, skips intermediate SurfaceShadingNodes.
      *

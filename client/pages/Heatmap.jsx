@@ -52,9 +52,10 @@ const devices = [
 ];
 
 /**
- * @component Sample heatmap code
+ * An example illustrating how to render a heatmap. Can be viewed at: https://hyperion.autodesk.io/heatmap
+ * 
+ * @component
  * @param {Object} props
- * @param {Object} props 
  * @param {Object} props.appData Data passed to the application.
  * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
  * @param {string} props.appData.docUrn Document URN of model
@@ -65,8 +66,7 @@ function Heatmap(props) {
     const { env, docUrn } = props.appData;
 
     /**
-     * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent
-     * when a model has been completely loaded in the viewer.
+     * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent when a model has been completely loaded in the viewer.
      *
      * @param {Autodesk.Viewing.GuiViewer3D} viewer The viewer in which the model is loaded.
      * @param {Object} data Event data that contains the loaded model.

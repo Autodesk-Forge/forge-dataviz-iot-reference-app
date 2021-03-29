@@ -46,7 +46,8 @@ const devices = [
 ];
 
 /**
- * An example illustrating how to add viewables to the scene.
+ * An example illustrating how to add viewables to the scene. Can be viewed at: https://hyperion.autodesk.io/dot
+ * 
  * @component
  * @memberof Autodesk.DataVisualization.Examples
  * @param {Object} props
@@ -58,8 +59,7 @@ function Dot(props) {
     const { env, docUrn } = props.appData;
 
     /**
-     * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent
-     * when a model has been completely loaded in the viewer.
+     * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent when a model has been completely loaded in the viewer.
      *
      * @param {Autodesk.Viewing.GuiViewer3D} viewer The viewer in which the model is loaded.
      */

@@ -117,6 +117,8 @@ const getNormalizedSensorValue = function (sensorName, sensorType) {
 };
 
 /**
+ * An example illustrating how to render a planar heatmap. Can be viewed at: https://hyperion.autodesk.io/texturedmap
+ * 
  * @component
  * @param {Object} props
  * @param {Object} props.appData Data passed to TexturedHeatmap.
@@ -138,8 +140,8 @@ function TexturedHeatMap(props) {
     /**
      * Generates simulation data used for this sample app
      *
-     * @returns {Object} The resulting simulation data in the following form:
-     *
+     * @returns {Object} Resulting simulation data.
+     * @example
      *  const obj = {
      *      id: "floor1",
      *      dbIds: [1945],
@@ -175,8 +177,7 @@ function TexturedHeatMap(props) {
     }
 
     /**
-     * Generates viewables to be added to the view. These viewables are sprite-based objects
-     * in the 3D viewer canvas, each representing a physical sensor in the real world.
+     * Generates viewables to be added to the view. These viewables are sprite-based objects in the 3D viewer canvas and represent physical sensors in the real world.
      *
      * @param {Object} dataItems The simulation data generated in 'generateSimulationData'.
      * @returns {ViewableData} The resulting viewable data that carries all viewables.
@@ -220,12 +221,12 @@ function TexturedHeatMap(props) {
     }
 
     /**
-     * `SurfaceShadingData` allows for hierarchical representation of shading data.
-     * This method generates `SurfaceShadingData` from the given simulation data which
-     * consists of a linear list of `sensors` on "floor1". When the surface shading
-     * (i.e. heatmap) is rendered, it will be based on the named `SurfaceShadingNode`,
-     * which in this case is "floor1". The hierarchical nature of `SurfaceShadingData`
-     * allows rendering to take place for "floor1" independent of other floors.
+     * `SurfaceShadingData` allows for hierarchical representation of shading data. 
+     * This method generates `SurfaceShadingData` from the given simulation data which 
+     * consists of a linear list of `sensors` on "floor1". When the surface shading 
+     * (i.e. heatmap) is rendered, it will be based on the named `SurfaceShadingNode`, 
+     * which in this case is "floor1". The hierarchical nature of `SurfaceShadingData` 
+     * allows rendering to take place for "floor1" independent of other floors. 
      *
      * @param {Object} dataItems The data from which `SurfaceShadingData` is to be generated.
      * @param {Model} [model] The optional model that contains sensors' dbIds.
@@ -289,8 +290,8 @@ function TexturedHeatMap(props) {
     const maxPlaybackSteps = 100.0;
 
     /**
-     * Interface for application to decide what is the current value for the heatmap
-     * @param {Autodesk.DataVisualization.Core.SurfaceShadingPoint} shadingPoint shading point that represents a device
+     * Interface for application to determine the current value for the heatmap
+     * @param {SurfaceShadingPoint} shadingPoint shading point that represents a device
      * @param {string} sensorType sensor type (in this case, "temperature")
      */
     function getSensorValue(shadingPoint, sensorType) {
@@ -318,8 +319,7 @@ function TexturedHeatMap(props) {
     }
 
     /**
-     * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent
-     * when a model has been completely loaded in the viewer.
+     * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent when a model has been completely loaded in the viewer.
      *
      * @param {Autodesk.Viewing.GuiViewer3D} viewer The viewer in which the model is loaded.
      * @param {Object} data Event data that contains the loaded model.

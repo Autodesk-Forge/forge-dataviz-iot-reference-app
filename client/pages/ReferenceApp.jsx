@@ -18,7 +18,9 @@ class EventBus { }
 THREE.EventDispatcher.prototype.apply(EventBus.prototype);
 
 /**
+ * An example of a complete application utilizing all features of the Data Visualization extension. Can be viewed at https://hyperion.autodesk.io/
  * 
+ * @component
  * @param {Object} props 
  * @param {Object} props.appData Data passed to the BaseApp.
  * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
@@ -28,7 +30,7 @@ THREE.EventDispatcher.prototype.apply(EventBus.prototype);
  * @param {string} [props.appData.dataStart] Start date for provided CSV data in ISO string format.
  * @param {string} [props.appData.dataEnd] End date for provided CSV data in ISO string format.
  * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
- * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link Autodesk.DataVisualization.Data.DataAdapter}
+ * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link DataAdapter}
  * 
  * @memberof Autodesk.DataVisualization.Examples
  */
@@ -45,7 +47,8 @@ function ReferenceApp(props) {
     const renderSettings = {
         showViewables: true,
         occlusion: false,
-        showTextures: true
+        showTextures: true,
+        heatmapType: "GeometryHeatmap"
     };
 
     useEffect(() => {
@@ -76,8 +79,8 @@ function ReferenceApp(props) {
             })
 
             /**
-             * Called when a user has selected a level in the {@link Autodesk.DataVisualization.UI.LevelsTree} or expanded/closed a 
-             * grouping in {@link Autodesk.DataVisualization.UI.DeviceTree}
+             * Called when a user has selected a level in the {@link LevelsTree} or expanded/closed a 
+             * grouping in {@link DeviceTree}
              * @param {Event} event 
              */
             function handleNodeChange(event) {

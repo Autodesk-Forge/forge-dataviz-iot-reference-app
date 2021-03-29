@@ -118,7 +118,8 @@ class EventBus { }
 THREE.EventDispatcher.prototype.apply(EventBus.prototype);
 
 /**
- * 
+ * An example illustrating how to render a heatmap using groups of dbIds. Can be viewed at https://hyperion.autodesk.io/engine
+ * @component
  * @param {Object} props 
  * @param {Object} props.appData Data passed to the EngineSimulation.
  * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
@@ -126,7 +127,7 @@ THREE.EventDispatcher.prototype.apply(EventBus.prototype);
  * @param {string} props.appData.adapterType Corresponds to Data Adapter used to query data. i.e - synthetic, azure etc.
  * @param {"derivativeV2"|"derivativeV2_EU"|"modelDerivativeV2"|"fluent"|"D3S"|"D3S_EU"} [props.appData.api] Please refer to LMV documentation for more information.
  * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
- * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link Autodesk.DataVisualization.Data.DataAdapter}
+ * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link DataAdapter}
  * 
  * @memberof Autodesk.DataVisualization.Examples
  */

@@ -17,6 +17,9 @@ class EventBus { }
 THREE.EventDispatcher.prototype.apply(EventBus.prototype);
 
 /**
+ * An example illustrating how to use the AEC Levels Extension and the {@link HyperionToolContainer} to select floors in a model. 
+ * Can be viewed at: https://hyperion.autodesk.io/structure
+ * 
  * @component
  * @param {Object} props
  * @param {Object} props.appData Data passed to application.
@@ -32,8 +35,7 @@ function StructureInfo(props) {
     const selectedLevelRef = useRef();
 
     /**
-     * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent
-     * when a model has been completely loaded in the viewer.
+     * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent when a model has been completely loaded in the viewer.
      *
      * @param {Autodesk.Viewing.GuiViewer3D} viewer The viewer in which the model is loaded.
      * @param {Object} data Event data that contains the loaded model.

@@ -24,7 +24,7 @@ import CustomPage from "./CustomPage.jsx";
  * @param {string} [props.appData.dataStart] Start date for provided CSV data in ISO string format.
  * @param {string} [props.appData.dataEnd] End date for provided CSV data in ISO string format.
  * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
- * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link Autodesk.DataVisualization.Data.DataAdapter}
+ * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link DataAdapter}
  */
 function App(props) {
     return (

@@ -6,7 +6,7 @@ module.exports = function (router) {
     function gatewayFactory(req, res, next) {
         const provider = req.query.provider;
         const project = req.query.project;
-        let deviceModelFile;
+        let deviceModelFile, deviceFile;
 
         const syntheticDataRoot = `${__dirname}/../gateways/synthetic-data`;
 
@@ -20,12 +20,9 @@ module.exports = function (router) {
                     deviceModelFile = process.env.DEVICE_MODEL_JSON || `${syntheticDataRoot}/device-models.json`;
                     req.dataGateway = new AzureGateway(deviceModelFile);
                     break;
-                case "synthetic":
-                    req.dataGateway = new SyntheticGateway();
-                    break;
                 case "csv":
                     deviceModelFile = process.env.CSV_MODEL_JSON || `${syntheticDataRoot}/device-models.json`;
-                    const deviceFile = process.env.CSV_DEVICE_JSON || `${syntheticDataRoot}/devices.json`;
+                    deviceFile = process.env.CSV_DEVICE_JSON || `${syntheticDataRoot}/devices.json`;
                     const dataFolder = process.env.CSV_FOLDER || `${__dirname}/../gateways/csv`;
                     const delimiter = process.env.CSV_DELIMITER || "\t";
                     const lineBreak = process.env.CSV_LINE_BREAK || "\n";
@@ -46,7 +43,10 @@ module.exports = function (router) {
                     );
                     break;
                 default:
-                    req.dataGateway = new SyntheticGateway();
+                    deviceModelFile = process.env.DEVICE_MODEL_JSON || `${syntheticDataRoot}/device-models.json`;
+                    deviceFile = process.env.DEVICE_JSON || `${syntheticDataRoot}/devices.json`;
+                    const configFile = process.env.SYNTHETIC_CONFIG || `${syntheticDataRoot}/config`
+                    req.dataGateway = new SyntheticGateway(deviceModelFile, deviceFile, configFile);
                     break;
             }
 
