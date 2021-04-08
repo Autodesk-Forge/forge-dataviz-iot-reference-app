@@ -126,4 +126,4 @@ function Navisworks(props) {
     );
 }
 
-module.exports = Navisworks;
+export default Navisworks;

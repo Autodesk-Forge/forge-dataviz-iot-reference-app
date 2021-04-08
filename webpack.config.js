@@ -1,4 +1,4 @@
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const Path = require("path");
 
 var env = process.env.ENV || "local";
@@ -30,42 +30,50 @@ var config = {
         rules: [
             {
                 test: /.jsx?$/,
-                loader: "babel-loader",
-                exclude: Path.resolve(__dirname, "node_modules"),
-                query: {
-                    presets: ["react", "es2015"],
-                    plugins: ["transform-object-rest-spread"]
-                }
+                use: [
+                    {
+                        loader: "babel-loader",
+                        options: {
+                            presets: ["@babel/react", ["@babel/env", { "targets": "defaults" }]],
+                            plugins: ["@babel/plugin-transform-spread"]
+                        },
+                    },
+                ],
+                exclude: Path.resolve(__dirname, "node_modules")
             },
             {
                 test: /forge-dataviz-iot-react-component.*.jsx?$/,
-                loader: "babel-loader",
+                use: [
+                    {
+                        loader: "babel-loader",
+                        options: {
+                            presets: ["@babel/react", ["@babel/env", { "targets": "defaults" }]],
+                            plugins: ["@babel/plugin-transform-spread"]
+                        }
+                    },
+                ],
                 exclude: Path.resolve(__dirname, "node_modules", "forge-dataviz-iot-react-components", "node_modules"),
-                query: {
-                    presets: ["react", "es2015"],
-                    plugins: ["transform-object-rest-spread"]
-                }
+
             },
             {
                 test: /\.(css|sass|scss)$/,
-                use: ExtractTextPlugin.extract({
-                    use: [
-                        {
-                            loader: "css-loader"
-                        },
-                        {
-                            loader: "sass-loader",
-                            options: {
-                                data: cssConfig
-                            }
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: "css-loader"
+                    },
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            additionalData: cssConfig
                         }
-                    ]
-                })
+                    }
+                ]
             },
             {
                 test: /\.svg$/i,
                 use: {
-                    loader: "svg-url-loader", 
+                    loader: "svg-url-loader",
                     options: {
                         // make loader to behave like url-loader, for all svg files
                         encoding: "base64",
@@ -75,9 +83,8 @@ var config = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin({
-            filename: "[name].bundle.css",
-            allChunks: true
+        new MiniCssExtractPlugin({
+            filename: "[name].bundle.css"
         }),
         require("./tools/WebpackDefines.js")
     ]

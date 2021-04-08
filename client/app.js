@@ -12,15 +12,15 @@ ApplicationContext.setup(SiteConfig);
 /**
  * Import required libraries
  */
-var React = require("react");
-var ReactDOM = require("react-dom");
-var AppPage = require("./pages/App.jsx");
-
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./pages/App.jsx";
 import { BrowserRouter } from "react-router-dom";
+
 
 ReactDOM.render(
     <BrowserRouter>
-        <AppPage {...{ appData: __app.dataContext, appContext: ApplicationContext }} />
+        <App {...{ appData: __app.dataContext, appContext: ApplicationContext }} />
     </BrowserRouter>,
     document.getElementById("hyperion_container")
 );

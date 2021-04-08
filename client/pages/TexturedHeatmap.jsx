@@ -8,7 +8,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Viewer } from "forge-dataviz-iot-react-components";
-import ApplicationContext from "../../shared/config/ApplicationContext.js";
 
 /**
  * Defines the two additional toolbar icons - play button and eye icon to show/hide sensors
@@ -128,6 +127,7 @@ const getNormalizedSensorValue = function (sensorName, sensorType) {
  */
 function TexturedHeatMap(props) {
     const { env, docUrn } = props.appData;
+    const ApplicationContext = props.appContext
     const [dataVizExt, setDataVizExt] = useState(null);
     const [sensorsVisible, setSensorsVisible] = useState(true);
 
@@ -381,4 +381,4 @@ function TexturedHeatMap(props) {
     />
 }
 
-module.exports = TexturedHeatMap;
+export default TexturedHeatMap;

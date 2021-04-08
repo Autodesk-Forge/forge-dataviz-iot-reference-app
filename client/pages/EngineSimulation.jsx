@@ -167,4 +167,4 @@ function EngineSimulation(props) {
     );
 }
 
-module.exports = EngineSimulation;
+export default EngineSimulation;

@@ -10,9 +10,9 @@
     "license": "MIT",
     "dependencies": {
         "@azure/arm-iothub": "^4.0.0",
+        "@azure/digital-twins-core": "^1.0.3",
         "@azure/event-hubs": "^5.3.1",
         "@azure/identity": "^1.2.3",
-        "@azure/digital-twins": "^1.0.0-preview.1",
         "@azure/ms-rest-nodeauth": "^3.0.6",
         "aws-sdk": "^2.708.0",
         "azure-iothub": "^1.13.0",

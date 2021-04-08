@@ -79,7 +79,7 @@ function ReferenceApp(props) {
             })
 
             /**
-             * Called when a user has selected a level in the {@link LevelsTree} or expanded/closed a 
+             * Called when a user has selected a grouping in the {@link HyperionToolContainer} or expanded/closed a 
              * grouping in {@link DeviceTree}
              * @param {Event} event 
              */
@@ -108,10 +108,10 @@ function ReferenceApp(props) {
                 }
             }
 
-            eventBusRef.current.addEventListener(EventTypes.LEVELS_TREE_MOUSE_CLICK, handleNodeChange);
+            eventBusRef.current.addEventListener(EventTypes.GROUP_SELECTION_MOUSE_CLICK, handleNodeChange);
             eventBusRef.current.addEventListener(EventTypes.DEVICE_TREE_EXPAND_EVENT, handleNodeChange);
 
-            eventBusRef.current.addEventListener(EventTypes.LEVELS_TREE_MOUSE_OUT, (event) => {
+            eventBusRef.current.addEventListener(EventTypes.GROUP_SELECTION_MOUSE_OUT, (event) => {
                 let floorSelector = levelsExt.floorSelector;
 
                 if (floorSelector.floorData) {
@@ -123,7 +123,7 @@ function ReferenceApp(props) {
                 }
             });
 
-            eventBusRef.current.addEventListener(EventTypes.LEVELS_TREE_MOUSE_OVER, (event) => {
+            eventBusRef.current.addEventListener(EventTypes.GROUP_SELECTION_MOUSE_OVER, (event) => {
                 let floorSelector = levelsExt.floorSelector;
                 if (floorSelector.floorData) {
                     let floor = floorSelector.floorData.find((item) => item.name == event.data.id);
@@ -165,4 +165,4 @@ function ReferenceApp(props) {
     );
 }
 
-module.exports = ReferenceApp;
+export default ReferenceApp;

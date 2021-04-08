@@ -1,4 +1,4 @@
-const DigitalTwinsClient = require("@azure/digital-twins").DigitalTwinsClient;
+const {DigitalTwinsClient} = require("@azure/digital-twins-core");
 const ClientSecretCredential = require("@azure/identity").ClientSecretCredential;
 const { EventHubConsumerClient, latestEventPosition } = require("@azure/event-hubs");
 const SocketIOServer = require("socket.io");
