@@ -307,4 +307,4 @@ function AnimatedSprites(props) {
     );
 }
 
-module.exports = AnimatedSprites;
+export default AnimatedSprites;

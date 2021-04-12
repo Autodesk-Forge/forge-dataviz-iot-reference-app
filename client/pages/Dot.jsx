@@ -4,25 +4,6 @@
 
 import React from "react";
 import { Viewer } from "forge-dataviz-iot-react-components";
-import ApplicationContext from "../../shared/config/ApplicationContext.js";
-
-/**
- * @type {SensorStyleDefinitions}
- */
-const SensorStyleDefinitions = {
-    co2: {
-        url: `${ApplicationContext.assetUrlPrefix}/images/co2.svg`,
-        color: 0xffffff,
-    },
-    temperature: {
-        url: `${ApplicationContext.assetUrlPrefix}/images/thermometer.svg`,
-        color: 0xffffff,
-    },
-    default: {
-        url: `${ApplicationContext.assetUrlPrefix}/images/circle.svg`,
-        color: 0xffffff,
-    },
-};
 
 const devices = [
     {
@@ -54,9 +35,30 @@ const devices = [
  * @param {Object} props.appData Data passed to the Dot Page.
  * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
  * @param {string} props.appData.docUrn Document URN of model
+ * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
+ * @param {string} [props.appContext.assetUrlPrefix] The url used to query assets
  */
 function Dot(props) {
     const { env, docUrn } = props.appData;
+    const ApplicationContext = props.appContext
+
+    /**
+     * @type {SensorStyleDefinitions}
+     */
+    const SensorStyleDefinitions = {
+        co2: {
+            url: `${ApplicationContext.assetUrlPrefix}/images/co2.svg`,
+            color: 0xffffff,
+        },
+        temperature: {
+            url: `${ApplicationContext.assetUrlPrefix}/images/thermometer.svg`,
+            color: 0xffffff,
+        },
+        default: {
+            url: `${ApplicationContext.assetUrlPrefix}/images/circle.svg`,
+            color: 0xffffff,
+        },
+    };
 
     /**
      * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent when a model has been completely loaded in the viewer.
@@ -123,4 +125,4 @@ function Dot(props) {
     );
 }
 
-module.exports = Dot;
+export default Dot;

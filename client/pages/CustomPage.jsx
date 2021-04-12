@@ -11,4 +11,4 @@ function CustomPage() {
     );
 }
 
-module.exports = CustomPage;
+export default CustomPage;

@@ -68,7 +68,7 @@ function StructureInfo(props) {
     }
 
     useEffect(() => {
-        eventBusRef.current.addEventListener(EventTypes.LEVELS_TREE_MOUSE_CLICK, (event) => {
+        eventBusRef.current.addEventListener(EventTypes.GROUP_SELECTION_MOUSE_CLICK, (event) => {
             if (appState.levelsExt) {
                 let floorSelector = appState.levelsExt.floorSelector;
 
@@ -108,4 +108,4 @@ function StructureInfo(props) {
     );
 }
 
-module.exports = StructureInfo;
+export default StructureInfo;

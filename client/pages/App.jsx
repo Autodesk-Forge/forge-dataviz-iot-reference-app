@@ -66,4 +66,4 @@ function App(props) {
     );
 }
 
-module.exports = App;
+export default App;
