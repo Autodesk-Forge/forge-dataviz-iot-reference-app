@@ -3,6 +3,7 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router";
 import { BaseApp } from "forge-dataviz-iot-react-components";
 import DataHelper from "./DataHelper";
 import { EventTypes } from "forge-dataviz-iot-react-components";
@@ -128,7 +129,7 @@ THREE.EventDispatcher.prototype.apply(EventBus.prototype);
  * @param {"derivativeV2"|"derivativeV2_EU"|"modelDerivativeV2"|"fluent"|"D3S"|"D3S_EU"} [props.appData.api] Please refer to LMV documentation for more information.
  * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
  * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link DataAdapter}
- * 
+ * @param {number|undefined} geomIndex Index of geometry to be shown. Forwarded via URL params.
  * @memberof Autodesk.DataVisualization.Examples
  */
 function EngineSimulation(props) {
@@ -137,6 +138,9 @@ function EngineSimulation(props) {
 
     const dataRef = useRef();
     const viewerRef = useRef(null);
+
+    const queryParams = new URLSearchParams(useLocation().search);
+    const geomIndex = queryParams.get("geometryIndex") ? parseInt(queryParams.get("geometryIndex")) : undefined;
 
     props.appData.docUrn = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Zm9yZ2V0X2h5cGVyaW9uX3Rlc3QvRW5naW5lX1N0YW5kLmR3Zg";
     props.appData.adapterType = "synthetic";
@@ -162,7 +166,7 @@ function EngineSimulation(props) {
 
     return (
         <React.Fragment>
-            <BaseApp {...props} eventBus={eventBusRef.current} data={data} />
+            <BaseApp {...props} eventBus={eventBusRef.current} data={data} geomIndex={geomIndex} />
         </React.Fragment>
     );
 }

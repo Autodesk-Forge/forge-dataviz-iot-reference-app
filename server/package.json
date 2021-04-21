@@ -21,7 +21,7 @@
         "dotenv": "^8.2.0",
         "event-stream": "^4.0.1",
         "express": "4.16.2",
-        "forge-apis": "^0.7.3",
+        "forge-apis": "^0.8.4",
         "mime": "^2.4.6",
         "node-rsa": "^1.1.1",
         "q": "^1.5.1",
@@ -29,7 +29,7 @@
         "tween-functions": "^1.2.0",
         "utf-8-validate": "^5.0.2",
         "uuid": "^8.3.1",
-        "forge-dataviz-iot-data-modules": "0.1.5"
+        "forge-dataviz-iot-data-modules": "0.1.6"
     },
     "devDependencies": {}
 }

@@ -2,7 +2,7 @@
 
 /**
  * Important for server side
- * As this is an sample backend server, we did not add authentitication guard for all the APIs
+ * As this is an sample backend server, we did not add authentication guard for all the APIs
  * Please add rate control and authentication check for all endpoints if you are trying to use our code
  */
 const path = require("path");
@@ -66,6 +66,7 @@ module.exports = function (router) {
                 new Forge().uploadAndTranslate(
                     req.params.filename,
                     data,
+                    req.headers.enablesvf2 === "true",
                     function (data) {
                         res.status(200).json(data);
                     },
@@ -120,6 +121,7 @@ module.exports = function (router) {
         var context = {
             appData: {
                 env: process.env.FORGE_ENV,
+                api: process.env.FORGE_API,
                 docUrn: process.env.FORGE_DOC_URN,
                 adapterType: process.env.ADAPTER_TYPE,
             },

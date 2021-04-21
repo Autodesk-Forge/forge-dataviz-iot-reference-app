@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router";
 import { BaseApp } from "forge-dataviz-iot-react-components";
 import DataHelper from "./DataHelper";
 import { EventTypes } from "forge-dataviz-iot-react-components";
@@ -31,10 +32,13 @@ THREE.EventDispatcher.prototype.apply(EventBus.prototype);
  * @param {string} [props.appData.dataEnd] End date for provided CSV data in ISO string format.
  * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
  * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link DataAdapter}
+ * @param {number|undefined} geomIndex Index of geometry to be shown. Forwarded via URL params.
  * 
  * @memberof Autodesk.DataVisualization.Examples
  */
 function ReferenceApp(props) {
+    const queryParams = new URLSearchParams(useLocation().search);
+    const geomIndex = queryParams.get("geometryIndex") ? parseInt(queryParams.get("geometryIndex")) : undefined;
 
     const eventBusRef = useRef(new EventBus());
     const [data, setData] = useState(null);
@@ -160,6 +164,7 @@ function ReferenceApp(props) {
                 renderSettings={renderSettings}
                 surfaceShadingConfig={surfaceShadingConfig}
                 propertyIconMap={PropertyIconMap}
+                geomIndex={geomIndex}
             />
         </React.Fragment>
     );

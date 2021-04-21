@@ -3,6 +3,10 @@
         <label>Select a model to upload and translate:</label>
         <input type="file" id="file-input" name="model"/>
     </div>
+    <div id="svf2checkbox">
+        <input type="checkbox" id="svf2">
+        <label for="svf2">Enable SVF2 Upload</label>
+    </div>
     <div id="status"></div>
     <div id="urn"></div>
 </form>
@@ -17,6 +21,7 @@
         fetch('/upload/' + file.name, { // Your POST endpoint
             method: 'POST',
             headers: {
+                enablesvf2:  document.getElementById("svf2").checked
             },
             body: file
         }).then(

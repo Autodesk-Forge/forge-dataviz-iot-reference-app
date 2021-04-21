@@ -66,7 +66,7 @@ function Dot(props) {
      * @param {Autodesk.Viewing.GuiViewer3D} viewer The viewer in which the model is loaded.
      */
     async function onModelLoaded(viewer) {
-        const dataVizExt = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
+        const dataVizExt = viewer.getExtension("Autodesk.DataVisualization");
         const DATAVIZEXTN = Autodesk.DataVisualization.Core;
         var styleMap = {};
 
@@ -119,6 +119,7 @@ function Dot(props) {
                 env={env}
                 docUrn={docUrn}
                 onModelLoaded={onModelLoaded}
+                extensions={{ "Autodesk.DataVisualization": { useInternal: true } }}
                 getToken={async () => await fetch("/api/token").then(res => res.json()).then(data => data.access_token)}
             />
         </React.Fragment>

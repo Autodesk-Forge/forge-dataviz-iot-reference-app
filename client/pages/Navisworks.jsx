@@ -3,6 +3,7 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router";
 import { BaseApp } from "forge-dataviz-iot-react-components";
 import DataHelper from "./DataHelper";
 import { EventTypes } from "forge-dataviz-iot-react-components";
@@ -69,6 +70,7 @@ const surfaceShadingConfig = {
  * @param {"derivativeV2"|"derivativeV2_EU"|"modelDerivativeV2"|"fluent"|"D3S"|"D3S_EU"} [props.appData.api] Please refer to LMV documentation for more information.
  * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
  * @param {string} [props.appContext.dataUrl] The base url used to configure a specific {@link DataAdapter}
+ * @param {number|undefined} geomIndex Index of geometry to be shown. Forwarded via URL params.
  * 
  * @memberof Autodesk.DataVisualization.Examples
  */
@@ -78,6 +80,9 @@ function Navisworks(props) {
 
     const dataRef = useRef();
     const viewerRef = useRef(null);
+
+    const queryParams = new URLSearchParams(useLocation().search);
+    const geomIndex = queryParams.get("geometryIndex") ? parseInt(queryParams.get("geometryIndex")) : undefined;
 
     props.appData.docUrn = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aHlwZXJpb24tZGVtby1idWNrZXQvaWNlJTIwc3RhZGl1bS5ud2Q";
     props.appData.adapterType = "synthetic";
@@ -121,7 +126,8 @@ function Navisworks(props) {
                 {...props}
                 eventBus={eventBusRef.current}
                 surfaceShadingConfig={surfaceShadingConfig}
-                data={data} />
+                data={data}
+                geomIndex={geomIndex} />
         </React.Fragment>
     );
 }

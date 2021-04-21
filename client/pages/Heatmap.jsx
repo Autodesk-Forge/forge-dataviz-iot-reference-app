@@ -74,7 +74,7 @@ function Heatmap(props) {
      * @param {Object} data Event data that contains the loaded model.
      */
     async function onModelLoaded(viewer, data) {
-        const dataVizExt = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
+        const dataVizExt = viewer.getExtension("Autodesk.DataVisualization");
         const DATAVIZEXTN = Autodesk.DataVisualization.Core;
         var styleMap = {};
 
@@ -117,9 +117,7 @@ function Heatmap(props) {
 
         const structureInfo = new DATAVIZEXTN.ModelStructureInfo(data.model);
         const heatmapData = await structureInfo.generateSurfaceShadingData(devices);
-
-        dataVizExt.setupSurfaceShading(data.model, heatmapData);
-
+        await dataVizExt.setupSurfaceShading(data.model, heatmapData);
         dataVizExt.registerSurfaceShadingColors("co2", [0x00ff00, 0xff0000]);
         dataVizExt.registerSurfaceShadingColors("temperature", [0xff0000, 0x0000ff]);
 
@@ -145,6 +143,7 @@ function Heatmap(props) {
                 env={env}
                 docUrn={docUrn}
                 onModelLoaded={onModelLoaded}
+                extensions={{ "Autodesk.DataVisualization": { useInternal: true } }}
                 getToken={async () => await fetch("/api/token").then(res => res.json()).then(data => data.access_token)}
             />
         </React.Fragment>
