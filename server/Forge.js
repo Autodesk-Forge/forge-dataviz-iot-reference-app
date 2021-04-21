@@ -48,7 +48,7 @@ class Forge {
         }).then((response) => response.json());
     }
 
-    async uploadAndTranslate(filename, buffer, callback, error) {
+    async uploadAndTranslate(filename, buffer, isSVF2, callback, error) {
         let oAuth2TwoLegged = new ForgeSDK.AuthClientTwoLegged(
             process.env.FORGE_CLIENT_ID,
             process.env.FORGE_CLIENT_SECRET,
@@ -64,7 +64,6 @@ class Forge {
         oAuth2TwoLegged.authenticate().then(
             async function (credentials) {
                 // Upload the file to OSS
-
                 try {
                     await bucketApi.getBucketDetails(targetBucket, oAuth2TwoLegged, credentials);
                 } catch (error) {
@@ -92,10 +91,28 @@ class Forge {
                             job.input = new ForgeSDK.JobPayloadInput();
                             job.input.urn = encodedURN;
                             job.input.compressedUrn = false;
-                            job.output = new ForgeSDK.JobPayloadOutput([new ForgeSDK.JobSvfOutputPayload()]);
-                            job.output.formats[0].type = "svf";
-                            job.output.formats[0].views = ["2d", "3d"];
-                            job.output.formats[0].advanced = { generateMasterViews: true };
+                            let OutputPayload;
+                            if (isSVF2) {
+                                OutputPayload = ForgeSDK.JobSvf2OutputPayload;
+                            } else {
+                                OutputPayload = ForgeSDK.JobSvfOutputPayload;
+                            }
+                            job.output = new ForgeSDK.JobPayloadOutput(
+                                [
+                                    new OutputPayload("svf", {
+                                        views: [
+                                            ForgeSDK.JobSvfOutputPayload.ViewsEnum["2d"],
+                                            ForgeSDK.JobSvfOutputPayload.ViewsEnum["3d"],
+                                        ],
+                                        advanced: { generateMasterViews: true },
+                                    }),
+                                ],
+                                {
+                                    destination: new ForgeSDK.JobPayloadDestination(
+                                        ForgeSDK.JobPayloadDestination.RegionEnum.US
+                                    ),
+                                }
+                            );
                             // Start translation Job
                             derivativesApi.translate(job, { xAdsForce: true }, oAuth2TwoLegged, credentials).then(
                                 function (data) {

@@ -45,7 +45,7 @@ module.exports = function (router) {
                 default:
                     deviceModelFile = process.env.DEVICE_MODEL_JSON || `${syntheticDataRoot}/device-models.json`;
                     deviceFile = process.env.DEVICE_JSON || `${syntheticDataRoot}/devices.json`;
-                    const configFile = process.env.SYNTHETIC_CONFIG || `${syntheticDataRoot}/config`
+                    const configFile = process.env.SYNTHETIC_CONFIG || `${syntheticDataRoot}/config.json`
                     req.dataGateway = new SyntheticGateway(deviceModelFile, deviceFile, configFile);
                     break;
             }

@@ -12,6 +12,7 @@ import AnimatedSprites from "./AnimatedSprites.jsx";
 import StructureInfo from "./StructureInfo.jsx";
 import Navisworks from "./Navisworks.jsx";
 import CustomPage from "./CustomPage.jsx";
+import MeshHeatmap from "./MeshHeatmap.jsx";
 
 /**
  * 
@@ -58,7 +59,10 @@ function App(props) {
                 <Route path="/app">
                     <CustomPage {...props} />
                 </Route>
-                <Route exact={true} path="/">
+                <Route exact={true} path="/meshheatmap">
+                    <MeshHeatmap {...props} />
+                </Route>
+                <Route path="/">
                     <ReferenceApp {...props} />
                 </Route>
             </Switch>

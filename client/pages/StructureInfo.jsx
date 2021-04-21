@@ -41,7 +41,7 @@ function StructureInfo(props) {
      * @param {Object} data Event data that contains the loaded model.
      */
     async function onModelLoaded(viewer, data) {
-        const dataVizExt = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
+        const dataVizExtn = viewer.getExtension("Autodesk.DataVisualization");
 
         // Get Model level info
         let viewerDocument = data.model.getDocumentNode().getDocument();
@@ -60,7 +60,7 @@ function StructureInfo(props) {
 
         setAppState({
             viewer,
-            dataVizExtn: dataVizExt,
+            dataVizExtn,
             levelsExt,
             buildingInfo: shadingData,
             levelInfo: levelInfo
@@ -95,6 +95,7 @@ function StructureInfo(props) {
                 env={env}
                 docUrn={docUrn}
                 onModelLoaded={onModelLoaded}
+                extensions={{ "Autodesk.DataVisualization": { useInternal: true } }}
                 getToken={async () => await fetch("/api/token").then(res => res.json()).then(data => data.access_token)}
             />
             {appState && appState.levelInfo && <HyperionToolContainer

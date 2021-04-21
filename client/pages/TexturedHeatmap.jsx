@@ -325,9 +325,7 @@ function TexturedHeatMap(props) {
      * @param {Object} data Event data that contains the loaded model.
      */
     async function onModelLoaded(viewer, data) {
-        const dataVizExtension = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
-        await viewer.loadExtension("TexturedHeatmapToolbarExtension");
-
+        const dataVizExtension = viewer.getExtension("Autodesk.DataVisualization");
         const viewerDocument = data.model.getDocumentNode().getDocument();
         const aecModelData = await viewerDocument.downloadAecModelData();
 
@@ -377,6 +375,10 @@ function TexturedHeatMap(props) {
         env={env}
         docUrn={docUrn}
         onModelLoaded={onModelLoaded}
+        extensions={{
+            "TexturedHeatmapToolbarExtension": {},
+            "Autodesk.DataVisualization": { useInternal: true }
+        }}
         getToken={async () => await fetch("/api/token").then(res => res.json()).then(data => data.access_token)}
     />
 }

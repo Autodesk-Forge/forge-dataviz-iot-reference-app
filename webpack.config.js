@@ -7,7 +7,7 @@ var SiteConfig = require("./shared/config/SiteConfig.js")(env, buildNumber);
 
 var cssConfig = SiteConfig.toSCSSEnv();
 const isDevEnv = /^(local|dev|develop)$/gi.test(env);
-const sourceMapOptions = isDevEnv ? "eval-cheap-module-source-map" : "none";
+const sourceMapOptions = isDevEnv ? "eval-cheap-module-source-map" : false;
 const mode = isDevEnv ? "development" : "production";
 
 var config = {
@@ -53,7 +53,6 @@ var config = {
                     },
                 ],
                 exclude: Path.resolve(__dirname, "node_modules", "forge-dataviz-iot-react-components", "node_modules"),
-
             },
             {
                 test: /\.(css|sass|scss)$/,
@@ -77,17 +76,17 @@ var config = {
                     options: {
                         // make loader to behave like url-loader, for all svg files
                         encoding: "base64",
-                    }
-                }
-            }
-        ]
+                    },
+                },
+            },
+        ],
     },
     plugins: [
         new MiniCssExtractPlugin({
             filename: "[name].bundle.css"
         }),
-        require("./tools/WebpackDefines.js")
-    ]
+        require("./tools/WebpackDefines.js"),
+    ],
 };
 
 module.exports = config;

@@ -229,9 +229,6 @@ function AnimatedSprites(props) {
      * @alias Autodesk.DataVisualization.Examples.AnimatedSprites#onModelLoaded
      */
     async function onModelLoaded(viewer, data) {
-
-        const dataVizExtension = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
-
         const viewerDocument = data.model.getDocumentNode().getDocument();
         const aecModelData = await viewerDocument.downloadAecModelData();
 
@@ -241,6 +238,8 @@ function AnimatedSprites(props) {
                 doNotCreateUI: true,
             });
         }
+
+        const dataVizExtension = viewer.getExtension("Autodesk.DataVisualization")
 
         if (levelsExtension) {
             levelsExtension.floorSelector.selectFloor(0, true);
@@ -298,6 +297,7 @@ function AnimatedSprites(props) {
             env={env}
             docUrn={docUrn}
             onModelLoaded={onModelLoaded}
+            extensions={{ "Autodesk.DataVisualization": { useInternal: true } }}
             getToken={async () =>
                 await fetch("/api/token")
                     .then((res) => res.json())
