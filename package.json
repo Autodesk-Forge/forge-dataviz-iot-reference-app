@@ -1,6 +1,6 @@
 {
     "name": "forge-dataviz-iot-reference-app",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "description": "Autodesk Forge Viewer Data Visualization Sample Application",
     "main": "server/localserver.js",
     "scripts": {
@@ -25,7 +25,7 @@
         "babel-loader": "^8.1.0",
         "concurrently": "^3.5.1",
         "css-loader": "3.6.0",
-        "local-web-server": "~0.5.23",
+        "local-web-server": "4.2.1",
         "mini-css-extract-plugin": "^1.4.0",
         "node-loader": "^1.0.2",
         "node-sass": "^5.0.0",
@@ -56,7 +56,7 @@
         "socket.io": "^3.0.4",
         "socket.io-client": "^3.0.4",
         "uuid": "^8.3.2",
-        "forge-dataviz-iot-data-modules": "0.1.6",
-        "forge-dataviz-iot-react-components": "0.1.7"
+        "forge-dataviz-iot-data-modules": "0.1.7",
+        "forge-dataviz-iot-react-components": "0.1.9"
     }
 }

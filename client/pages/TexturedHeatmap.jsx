@@ -377,7 +377,7 @@ function TexturedHeatMap(props) {
         onModelLoaded={onModelLoaded}
         extensions={{
             "TexturedHeatmapToolbarExtension": {},
-            "Autodesk.DataVisualization": { useInternal: true }
+            "Autodesk.DataVisualization": { }
         }}
         getToken={async () => await fetch("/api/token").then(res => res.json()).then(data => data.access_token)}
     />

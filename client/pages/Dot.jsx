@@ -119,7 +119,7 @@ function Dot(props) {
                 env={env}
                 docUrn={docUrn}
                 onModelLoaded={onModelLoaded}
-                extensions={{ "Autodesk.DataVisualization": { useInternal: true } }}
+                extensions={{ "Autodesk.DataVisualization": { } }}
                 getToken={async () => await fetch("/api/token").then(res => res.json()).then(data => data.access_token)}
             />
         </React.Fragment>

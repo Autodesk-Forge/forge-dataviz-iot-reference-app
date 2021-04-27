@@ -141,7 +141,7 @@ function ReferenceApp(props) {
             let session = event.data.session;
             let devicesList = session.dataStore.deviceModels[0].devices;
             let dataHelper = new DataHelper();
-            let shadingData = await dataHelper.createShadingGroupByFloor(model, devicesList);
+            let shadingData = await dataHelper.createShadingGroupByFloor(viewer, model, devicesList);
             let devicePanelData = dataHelper.createDeviceTree(shadingData, false);
 
             shadingData.getChildLeafs(leafNodesRef.current);

@@ -1,14 +1,11 @@
 /**
  * This sample illustrates how to use the IDWProcessor to render a MeshHeatmap.
  */
-
- import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import STLLoader from "../loader/STLLoader.js";
 import { Viewer } from "forge-dataviz-iot-react-components";
 
-window.DEBUG_SHADERS = 1;
-
-class EventBus { }
+class EventBus {}
 THREE.EventDispatcher.prototype.apply(EventBus.prototype);
 
 const stlURL = "https://s3-us-west-2.amazonaws.com/hyperion-test-data.autodesk.io/a.stl";
@@ -50,13 +47,13 @@ class SimpleMaterial extends THREE.ShaderMaterial {
 
 /**
  * An example illustrating how to add mesh based heatmap using IDW processor (https://en.wikipedia.org/wiki/Inverse_distance_weighting). Can be viewed at: https://hyperion.autodesk.io/meshheatmap
- * 
+ *
  * @component
  * @memberof Autodesk.DataVisualization.Examples
  * @param {Object} props
  * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
- * @param {string} [props.appContext.assetUrlPrefix] The url used to query assets 
- * 
+ * @param {string} [props.appContext.assetUrlPrefix] The url used to query assets
+ *
  */
 
 function MeshHeatmap(props) {
@@ -69,7 +66,7 @@ function MeshHeatmap(props) {
     const [pow, setPow] = useState(2);
     const [showSensor, setShowSensor] = useState(false);
 
-    const ApplicationContext = props.appContext
+    const ApplicationContext = props.appContext;
 
     const SensorStyleDefinitions = {
         default: {
@@ -77,7 +74,6 @@ function MeshHeatmap(props) {
             color: 0xffffff,
         },
     };
-    
 
     async function addViewables(viewer, sensors) {
         const dataVizExt = viewer.getExtension("Autodesk.DataVisualization");
@@ -239,7 +235,7 @@ function MeshHeatmap(props) {
             const sceneBuilder = await viewer.loadExtension("Autodesk.Viewing.SceneBuilder");
             await sceneBuilder.addNewModel(options);
 
-            const dataVizExt = await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
+            const dataVizExt = await viewer.loadExtension("Autodesk.DataVisualization", { });
             dataVizExtRef.current = dataVizExt;
 
             loadSTL(stlURL, csvURL);
@@ -260,26 +256,13 @@ function MeshHeatmap(props) {
 
     return (
         <React.Fragment>
-            <div
-                style={{
-                    position: "absolute",
-                    top: "20px",
-                    left: "20px",
-                    zIndex: "100",
-                    width: "4000px",
-                    color: "black",
-                }}
-            >
+            <div id="mesh-hm-controls">
                 <label>Pow: {pow.toFixed(1)}</label>
                 <input type="range" onChange={onPowChange} value={pow} min="0.1" max="6" step="0.01" />
-
                 <label> Show Sensor: </label>
                 <input type="checkbox" checked={showSensor} onChange={onShowSensorChange} />
             </div>
-            <Viewer
-                viewerOptions={{ shouldInitializeAuth: false }}
-                eventBus={eventBusRef.current}
-            />
+            <Viewer viewerOptions={{ shouldInitializeAuth: false }} eventBus={eventBusRef.current} />
         </React.Fragment>
     );
 }
