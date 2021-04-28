@@ -220,12 +220,7 @@ export default class DataHelper {
             }
             return shadingData.children.map(item => ({ id: item.id, name: item.name, propIds: [], children: traverse(item).filter(i => i).flat() }));
         }
-
-
-
     }
-
-
 
 }
 
