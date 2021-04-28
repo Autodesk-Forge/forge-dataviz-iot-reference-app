@@ -29,7 +29,7 @@
         "tween-functions": "^1.2.0",
         "utf-8-validate": "^5.0.2",
         "uuid": "^8.3.1",
-        "forge-dataviz-iot-data-modules": "0.1.6"
+        "forge-dataviz-iot-data-modules": "0.1.8"
     },
     "devDependencies": {}
 }
