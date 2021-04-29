@@ -55,7 +55,7 @@ function StructureInfo(props) {
 
         // Model Structure Info
         let dataHelper = new DataHelper();
-        let shadingData = await dataHelper.createShadingGroupByFloor(data.model, []);
+        let shadingData = await dataHelper.createShadingGroupByFloor(viewer, data.model, []);
         const levelInfo = dataHelper.createDeviceTree(shadingData, true);
 
         setAppState({
@@ -95,7 +95,7 @@ function StructureInfo(props) {
                 env={env}
                 docUrn={docUrn}
                 onModelLoaded={onModelLoaded}
-                extensions={{ "Autodesk.DataVisualization": { useInternal: true } }}
+                extensions={{ "Autodesk.DataVisualization": { } }}
                 getToken={async () => await fetch("/api/token").then(res => res.json()).then(data => data.access_token)}
             />
             {appState && appState.levelInfo && <HyperionToolContainer

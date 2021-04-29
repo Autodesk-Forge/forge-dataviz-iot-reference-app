@@ -13,5 +13,14 @@
     background-position: center;
 }
 
+#mesh-hm-controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    width: 4000px;
+    color: black;
+}
+
 // Import any custom application styling
 @import "./custom.scss";

@@ -5,14 +5,13 @@ export default class DataHelper {
      * Checks if the "Autodesk.DataVisualization" extension has already been loaded and loads it otherwise.
      * 
      * @param {Autodesk.Viewing.GuiViewer3D} viewer Instance of Forge Viewer
-     * @returns {Object} Reference to Autodesk.DataVisualization.Core
+     * @returns {Object} Reference to Autodesk.DataVisualization extension.
      */
-    async checkExtension(viewer) {
+    async getExtension(viewer) {
         if (Autodesk && Autodesk.DataVisualization.Core && Autodesk.DataVisualization.Core.SurfaceShadingData) {
-            return Autodesk.DataVisualization.Core;
+            return await viewer.getExtension("Autodesk.DataVisualization");
         } else {
-            await viewer.loadExtension("Autodesk.DataVisualization", { useInternal: true });
-            return Autodesk.DataVisualization.Core;
+            return await viewer.loadExtension("Autodesk.DataVisualization");
         }
     }
 
@@ -60,8 +59,8 @@ export default class DataHelper {
      @returns {SurfaceShadingData}
      */
     async createShadingData(viewer, model, rawData) {
-        let ns = await this.checkExtension(viewer);
-
+        let dataVizExt = await this.getExtension(viewer);
+        const ns = Autodesk.DataVisualization.Core;
         const {
             SurfaceShadingData,
             SurfaceShadingPoint,
@@ -69,80 +68,102 @@ export default class DataHelper {
             SurfaceShadingGroup,
         } = ns;
 
-        let shadingData = new SurfaceShadingData();
+        const create = async () => {
+            let shadingData = new SurfaceShadingData();
 
-        /**
-         * Creates a {@link SurfaceShadingNode} corresponding to item.
-         * 
-         * @param {Object} item 
-         */
-        function createNode(item) {
-            let node = new SurfaceShadingNode(item.id, item.dbIds);
+            /**
+             * Creates a {@link SurfaceShadingNode} corresponding to item.
+             * 
+             * @param {Object} item 
+             */
+            function createNode(item) {
+                let node = new SurfaceShadingNode(item.id, item.dbIds);
 
-            item.sensors.forEach((sensor) => {
-                let shadingPoint = new SurfaceShadingPoint(sensor.id, sensor.position, sensor.sensorTypes, sensor.name, { styleId: sensor.styleId || sensor.type });
+                item.sensors.forEach((sensor) => {
+                    let shadingPoint = new SurfaceShadingPoint(sensor.id, sensor.position, sensor.sensorTypes, sensor.name, { styleId: sensor.styleId || sensor.type });
 
-                // If the position is not specified, derive it from the center of Geometry
-                if (sensor.dbId != undefined && sensor.position == null) {
-                    shadingPoint.positionFromDBId(model, sensor.dbId);
-                }
-                node.addPoint(shadingPoint);
-            });
+                    // If the position is not specified, derive it from the center of Geometry
+                    if (sensor.dbId != undefined && sensor.position == null) {
+                        shadingPoint.positionFromDBId(model, sensor.dbId);
+                    }
+                    node.addPoint(shadingPoint);
+                });
 
-            return node;
-        }
-
-        /**
-         * Creates a {@link SurfaceShadingGroup} corresponding to item.
-         * 
-         * @param {Object} item 
-         */
-        function createGroup(item) {
-            let group = new SurfaceShadingGroup(item.id);
-
-            item.children.forEach((child) => {
-                if (child.children) {
-                    group.addChild(createGroup(child));
-                } else {
-                    group.addChild(createNode(child));
-                }
-            });
-            return group;
-        }
-
-        rawData.forEach((item) => {
-            if (item.children) {
-                shadingData.addChild(createGroup(item));
-            } else {
-                shadingData.addChild(createNode(item));
+                return node;
             }
-        });
 
-        return shadingData;
+            /**
+             * Creates a {@link SurfaceShadingGroup} corresponding to item.
+             * 
+             * @param {Object} item 
+             */
+            function createGroup(item) {
+                let group = new SurfaceShadingGroup(item.id);
+
+                item.children.forEach((child) => {
+                    if (child.children) {
+                        group.addChild(createGroup(child));
+                    } else {
+                        group.addChild(createNode(child));
+                    }
+                });
+                return group;
+            }
+
+            rawData.forEach((item) => {
+                if (item.children) {
+                    shadingData.addChild(createGroup(item));
+                } else {
+                    shadingData.addChild(createNode(item));
+                }
+            });
+
+            return shadingData;
+        }
+
+        // Ensure that instance tree has loaded.
+        await this.waitForInstanceTree(dataVizExt, model);
+        return create();
     }
-
 
     /**
      * Uses the {@link ModelStructureInfo} to construct {@link SurfaceShadingData}
      * 
+     * @param {GuiViewer3D} Viewer instance used to retrieve dataViz extension.
      * @param {Model} model Model loaded in viewer
      * @param {Device[]} deviceList List of devices to be mapped to loaded rooms.
      */
-    async createShadingGroupByFloor(model, deviceList) {
-        const structureInfo = new Autodesk.DataVisualization.Core.ModelStructureInfo(model);
-        /**
-         * We have a custom type here for the UI in {@link constructDeviceTree}
-         */
-        let shadingData = await structureInfo.generateSurfaceShadingData(deviceList);
+    async createShadingGroupByFloor(viewer, model, deviceList) {
+        let dataVizExt = await this.getExtension(viewer);
 
-        return shadingData;
+        const getShadingData = async () => {
+            const structureInfo = new Autodesk.DataVisualization.Core.ModelStructureInfo(model);
+            /**
+             * We have a custom type here for the UI in {@link constructDeviceTree}
+             */
+
+            let shadingData = await structureInfo.generateSurfaceShadingData(deviceList);
+            return shadingData;
+        }
+
+        // Ensure that instance tree has loaded.
+        await this.waitForInstanceTree(dataVizExt, model);
+        return getShadingData();
+    }
+
+
+    async waitForInstanceTree(dataVizExt, model) {
+        if (dataVizExt.waitForInstanceTree) {
+            await dataVizExt.waitForInstanceTree(model);
+        }
     }
 
 
     /**
      * Constructs a device tree used to load the device UI.
      *
-     * @param {LevelRoomsMap} shadingData The level-to-room map.
+     * @param {SurfaceShadingData} shadingData The SurfaceShadingData, generally the output of {@link createShadingGroupByFloor} or
+     * &nbsp; {@link createShadingData}.
      * @param {boolean} usingFullTree When true, constructs a deviceTree that contains all non-empty SurfaceShadingGroups, 
      * &nbsp;intermediate SurfaceShadingNodes, and SurfaceShading Points. When false, skips intermediate SurfaceShadingNodes.
      *
@@ -199,12 +220,7 @@ export default class DataHelper {
             }
             return shadingData.children.map(item => ({ id: item.id, name: item.name, propIds: [], children: traverse(item).filter(i => i).flat() }));
         }
-
-
-
     }
-
-
 
 }
 

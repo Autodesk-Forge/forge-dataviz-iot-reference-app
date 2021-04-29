@@ -297,7 +297,7 @@ function AnimatedSprites(props) {
             env={env}
             docUrn={docUrn}
             onModelLoaded={onModelLoaded}
-            extensions={{ "Autodesk.DataVisualization": { useInternal: true } }}
+            extensions={{ "Autodesk.DataVisualization": {} }}
             getToken={async () =>
                 await fetch("/api/token")
                     .then((res) => res.json())
