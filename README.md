@@ -2,7 +2,7 @@
 
 ![Application](docs/dataviz-intro.jpg)
 
-This sample application demonstrates the functionality of the Forge Data Visualization extension. To learn more about the extension and the features it offers, see the [Data Visualization Extension (Beta) Developer's Guide](https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/introduction/overview/).
+This sample application demonstrates the functionality of the Forge Data Visualization extension. To learn more about the extension and the features it offers, see the [Data Visualization Extension  Developer's Guide](https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/introduction/overview/).
 
 ## Directory Structure
 
@@ -27,7 +27,7 @@ To successfully run this Reference Application, you need a _Forge account_. If y
 
 ### Installing and Running the Reference Application
 
-To install and run the Reference Application, see the [Data Visualization Extension (Beta) QuickStart](https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/quickstart/).
+To install and run the Reference Application, see the [Data Visualization Extension QuickStart](https://forge.autodesk.com/en/docs/dataviz/v1/developers_guide/quickstart/).
 
 ## Advanced Users
 
