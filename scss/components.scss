@@ -8,25 +8,12 @@ body {
     margin: 0 0 0 0;
     overflow: hidden;
     font-family: "Roboto";
-    color: #ffffff;
+    color: white;
     background-color: #373737;
 }
 
 input {
     font-family: "Roboto";
-}
-
-#hyperion_container {
-    height: 100%;
-
-    .outer-container {
-        height: 100%;
-    }
-}
-
-#main_header{
-    display: flex;
-    background-color: #474747;
 }
 
 div.viewer-container {
@@ -48,13 +35,22 @@ div.viewer-container {
     margin: 0;
     background-color: #f0f8ff;
 
+    div.reference_app {
+        padding: 6px;
+        position: absolute;
+        bottom: 5px;
+        z-index: 3;
+        user-select: none;
+        color: black;
+    }
+
     div.adsk-toolbar .adsk-control-group {
         border-radius: 13px;
     }
 }
 
 #resizeHandle {
-    color: #ffffff;
+    color: white;
     width: 100%;
     padding-left: 5px;
     text-align: center;
@@ -76,9 +72,13 @@ div.viewer-container {
     margin-top: 25px;
 }
 
-.leafName {
+#deviceName {
     display: block;
     align-items: center;
+}
+
+#goToSensorButton {
+    fill: #d0d0d0;
 }
 
 #searchBarDiv {
@@ -97,31 +97,16 @@ div.viewer-container {
     flex-direction: column;
 }
 
-.container-button {
-    fill: #ffffff;
-}
-
-.container-button:hover, .container-button:focus{
-    fill: #00bfff;
-}
-
 #ContactUsBar + div.viewer-container + #hyperionToolContainer {
     top: #{30px + $time_slider_height + $contact_us_card_height};
 }
 
-#heatmapOptions_Container {
+#surfaceShader_Container {
     top: #{10px + $time_slider_height};
-    width: 75%;
-    z-index: 1;
-    display: flex;
-    height: 10%;
-    justify-content: center;
-    position: absolute;
-    pointer-events: none;
 }
 
-#ContactUsBar + div.viewer-container + #hyperionToolContainer + #heatmapOptions_Container {
-    top: #{10px + $time_slider_height + 80px};
+#ContactUsBar + div.viewer-container + #hyperionToolContainer + #surfaceShader_Container {
+    top: #{10px + $time_slider_height + $contact_us_card_height};
 }
 
 #treeView {
@@ -142,6 +127,14 @@ div.viewer-container {
     height: calc(100% - #{$time_slider_height});
     max-height: calc(100% - #{$time_slider_height});
     overflow-y: auto;
+}
+
+#hyperion_container {
+    height: 100%;
+
+    .outer-container {
+        height: 100%;
+    }
 }
 
 .date-picker-container {
@@ -202,181 +195,6 @@ div.viewer-container {
 .chart-container {
     display: flex;
     justify-content: center;
-}
-
-#heatmapSelection {
-    display: flex;
-    pointer-events: none;
-}
-
-#visibility-icon, #layers-icon, #showHeatMap {
-    fill: inherit
-}
-
-.logo {
-    width: 9%;
-    bottom: 22px;
-    position: absolute;
-    z-index: 2;
-    left: 15px;
-    opacity: 0.85
-}
-
-.dashboard{
-    padding-right: 2px;
-}
-
-.dashboard-header {
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    background-color: #2a2a2a;
-    padding: 15px 5px 15px 5px;
-}
-
-#dashboard-back-arrow {
-    color:#ffffff;
-    position: absolute;
-    z-index: 2;
-}
-
-.dashboard-device-name {
-    color: #ffffff;
-    font-size: 18px;
-    font-weight: bold;
-    flex-grow: 1;
-    position: relative; 
-}
-
-#dashboard-loading-icon{
-    display: block;
-    margin: auto;
-    margin-top: 30px;
-}
-
-.tree-device-row-heading {
-    display: block;
-    align-items: center;
-}
-
-.tree-device-name {
-    font-weight: 900;
-    padding-top: 5px;
-}
-
-.badge {
-    border-radius: 50%;
-    text-align: center;
-    width: 24px;
-    line-height: 24px;
-    margin-left: 12px;
-    font-size: 10px;
-    background-color: #5B5B5B;
-}
-
-.tooltip-device-name {
-    display: flex;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 12px;
-    padding-top: 1px;
-    padding-bottom: 3px;
-}
-
-.tooltip-property-val {
-    font-size: 13px;
-    display: flex;
-    justify-content: center;
-}
-
-.tooltip{
-    position: absolute;
-    z-index: 2;
-}
-
-.tooltip-loading-icon{
-    display: block;
-    margin: auto;
-    padding: 5px;
-}
-
-#divider{
-    background-color: #ffffff;
-}
-
-#form-divider{
-    background-color: #555555;
-    margin: 6px;
-}
-
-.radio-selection-form{
-    margin-left: 35px;
-    font-size: 10px;
-}
-
-#sensor-option-icon{
-    fill: inherit;
-    width: 30px;
-    height: 26px;
-}
-
-#form-label-hm{
-    color: #ffffff;
-    padding: 2px;
-    margin-top: 8px;
-    margin-bottom: 3px;
-    margin-left: -6px;
-}
-
-.form-group{
-    margin-left: 20px;
-}
-
-#ssd-typography, #settings-typography {
-    padding: 16px;
-    background-color: #373737;
-    color: #ffffff;
-    font-size: 14px;
-    border-radius: 7px;
-    margin-left: 7px;
-}
-
-.arrow {
-    position: absolute;
-    font-size: 7px;
-    width: 4em;
-    height: 4em;
-}
-
-.arrow::before{
-    content: "";
-    margin: auto;
-    display: block;
-    width: 0;
-    height: 0;
-    border-style: solid;
-}
-
-.popper {
-    z-index: 2;
-    max-height: calc(100% - 250px);
-    overflow-y: auto;
-    border-radius: 7px;  
-}
-
-[x-placement*="right"] .arrow {
-    left: 0;
-    height: 3em;
-    width: 1em;
-}
-
-[x-placement*="right"] .arrow::before {
-    border-width: 1em 1em 1em 0;
-    border-color: transparent #373737 transparent transparent;
-}
-
-.hm-radio-group{
-    margin-top: 1px;
 }
 
 @media screen and (max-width: 1130px) and (min-width: 988px) {
