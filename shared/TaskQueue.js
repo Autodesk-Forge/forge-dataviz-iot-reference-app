@@ -6,7 +6,6 @@ var TaskQueue = function (cocurrent, name, hideProgress) {
     this.hideProgress = hideProgress;
 };
 
-
 TaskQueue.prototype.addTask = function (task, atBeginning) {
     if (atBeginning) {
         this.queue.unshift(task);
@@ -15,7 +14,14 @@ TaskQueue.prototype.addTask = function (task, atBeginning) {
     }
 
     if (!this.hideProgress) {
-        console.log("TaskAdd Queue:", this.name, "Length:", this.queue.length, "OnGoing:", this.onGoingTask);
+        console.log(
+            "TaskAdd Queue:",
+            this.name,
+            "Length:",
+            this.queue.length,
+            "OnGoing:",
+            this.onGoingTask
+        );
     }
     this.executeNext();
 };
@@ -33,12 +39,19 @@ TaskQueue.prototype.executeNext = function () {
                     executed = 1;
                     self.onTaskFinished();
                 }
-            }
+            };
         })();
 
         try {
             if (!this.hideProgress) {
-                console.log("TaskStart Queue:", this.name, "Length:", this.queue.length, "OnGoing:", this.onGoingTask);
+                console.log(
+                    "TaskStart Queue:",
+                    this.name,
+                    "Length:",
+                    this.queue.length,
+                    "OnGoing:",
+                    this.onGoingTask
+                );
             }
 
             // no mater the task is finished or not, we need to make sure the onFinished has been called
@@ -61,22 +74,28 @@ TaskQueue.prototype.onTaskFinished = function () {
     this.onGoingTask = this.onGoingTask - 1;
     this.onGoingTask = this.onGoingTask < 0 ? 0 : this.onGoingTask;
     if (!this.hideProgress) {
-        console.log("TaskFinished Queue:", this.name, "Length:", this.queue.length, "OnGoing:", this.onGoingTask);
+        console.log(
+            "TaskFinished Queue:",
+            this.name,
+            "Length:",
+            this.queue.length,
+            "OnGoing:",
+            this.onGoingTask
+        );
     }
     var self = this;
     setTimeout(function () {
         self.executeNext();
     }, 0);
-
 };
 
 /**
  * Remove the taskqueue to fresh states
  */
-TaskQueue.prototype.reset = function() {
-    while(this.queue.length > 0) {
+TaskQueue.prototype.reset = function () {
+    while (this.queue.length > 0) {
         this.queue.pop();
-    };
+    }
     this.onGoingTask = 0;
 };
 

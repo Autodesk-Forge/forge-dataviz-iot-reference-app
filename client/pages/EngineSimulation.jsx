@@ -114,14 +114,14 @@ const RAW_DATA = [
     },
 ];
 
-class EventBus { }
+class EventBus {}
 
 THREE.EventDispatcher.prototype.apply(EventBus.prototype);
 
 /**
  * An example illustrating how to render a heatmap using groups of dbIds. Can be viewed at https://hyperion.autodesk.io/engine
  * @component
- * @param {Object} props 
+ * @param {Object} props
  * @param {Object} props.appData Data passed to the EngineSimulation.
  * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
  * @param {string} props.appData.docUrn Document URN of model
@@ -140,13 +140,18 @@ function EngineSimulation(props) {
     const viewerRef = useRef(null);
 
     const queryParams = new URLSearchParams(useLocation().search);
-    const geomIndex = queryParams.get("geometryIndex") ? parseInt(queryParams.get("geometryIndex")) : undefined;
+    const geomIndex = queryParams.get("geometryIndex")
+        ? parseInt(queryParams.get("geometryIndex"))
+        : undefined;
 
-    props.appData.docUrn = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Zm9yZ2V0X2h5cGVyaW9uX3Rlc3QvRW5naW5lX1N0YW5kLmR3Zg";
+    props.appData.docUrn =
+        "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Zm9yZ2V0X2h5cGVyaW9uX3Rlc3QvRW5naW5lX1N0YW5kLmR3Zg";
     props.appData.adapterType = "synthetic";
 
     useEffect(() => {
-        eventBusRef.current.addEventListener(EventTypes.MODEL_LOAD_COMPLETED, async function (event) {
+        eventBusRef.current.addEventListener(EventTypes.MODEL_LOAD_COMPLETED, async function (
+            event
+        ) {
             viewerRef.current = event.data.viewer;
             let viewer = viewerRef.current;
 

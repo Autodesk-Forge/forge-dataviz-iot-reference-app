@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 /**
  * Initialize the configurations
  *
@@ -16,7 +18,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./pages/App.jsx";
 import { BrowserRouter } from "react-router-dom";
-
 
 ReactDOM.render(
     <BrowserRouter>

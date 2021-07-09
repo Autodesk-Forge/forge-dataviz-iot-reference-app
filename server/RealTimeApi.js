@@ -1,9 +1,7 @@
-const {DigitalTwinsClient} = require("@azure/digital-twins-core");
+const { DigitalTwinsClient } = require("@azure/digital-twins-core");
 const ClientSecretCredential = require("@azure/identity").ClientSecretCredential;
 const { EventHubConsumerClient, latestEventPosition } = require("@azure/event-hubs");
 const SocketIOServer = require("socket.io");
-const fs = require("fs");
-const path = require("path");
 const _ = require("lodash");
 
 function createSocketIOServer(server) {
@@ -120,11 +118,15 @@ function createSocketIOServer(server) {
 
     // Real Time update option 2
     // Real-time update by subscribing to iot-hub events
-    const client = new EventHubConsumerClient("websocket", process.env.AZURE_IOT_HUB_EVENT_HUB_CONNECTION_STRING);
+    const client = new EventHubConsumerClient(
+        "websocket",
+        process.env.AZURE_IOT_HUB_EVENT_HUB_CONNECTION_STRING
+    );
     const subscriptionOptions = {
         startPosition: latestEventPosition,
     };
     // TODO: Check if this connection can fail after being subscribed
+    // eslint-disable-next-line no-unused-vars
     const subscription = client.subscribe(
         {
             processEvents: async (events, context) => {

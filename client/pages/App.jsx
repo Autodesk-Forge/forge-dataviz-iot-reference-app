@@ -12,10 +12,11 @@ import AnimatedSprites from "./AnimatedSprites.jsx";
 import StructureInfo from "./StructureInfo.jsx";
 import Navisworks from "./Navisworks.jsx";
 import CustomPage from "./CustomPage.jsx";
+import Playground from "./Playground.jsx";
 
 /**
- * 
- * @param {Object} props 
+ *
+ * @param {Object} props
  * @param {Object} props.appData Data passed to the application.
  * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
  * @param {string} props.appData.docUrn Document URN of model
@@ -57,6 +58,9 @@ function App(props) {
                 {/* Route to custom-developed client app page */}
                 <Route path="/app">
                     <CustomPage {...props} />
+                </Route>
+                <Route path="/playground">
+                    <Playground {...props} />
                 </Route>
                 <Route path="/">
                     <ReferenceApp {...props} />

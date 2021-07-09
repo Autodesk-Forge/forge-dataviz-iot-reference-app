@@ -30,22 +30,22 @@ var ApplicationContext = require("../../shared/config/ApplicationContext.js");
 ApplicationContext.setup(SiteConfig);
 
 module.exports = function (router) {
-    function forgeToken(req, res) {
+    function forgeToken(/* req, res */) {
         // user has already configured the ENV
-        if (process.env.FORGE_DOC_URN && process.env.FORGE_CLIENT_ID && process.env.FORGE_CLIENT_SECRET) {
-            return new Forge()
-                .getAuthToken()
-                .then((token) => {
-                    return { forgeToken: token.access_token }
-                })
+        if (
+            process.env.FORGE_DOC_URN &&
+            process.env.FORGE_CLIENT_ID &&
+            process.env.FORGE_CLIENT_SECRET
+        ) {
+            return new Forge().getAuthToken().then((token) => {
+                return { forgeToken: token.access_token };
+            });
         } else {
             // Send request to get the public doc urn and access token from api
-            return new Forge()
-                .getHyperionDefault()
-                .then((data) => {
-                    process.env.FORGE_DOC_URN = data.urn;
-                    return { forgeToken: data.access_token }
-                })
+            return new Forge().getHyperionDefault().then((data) => {
+                process.env.FORGE_DOC_URN = data.urn;
+                return { forgeToken: data.access_token };
+            });
         }
     }
 
@@ -83,7 +83,11 @@ module.exports = function (router) {
                     // Append job to .env
                     let buff = Buffer.from(urn, "base64");
                     let text = buff.toString("ascii");
-                    FS.appendFileSync(`${__dirname}/../.env`, `#${text}\nFORGE_DOC_URN=urn:${urn}\n\n`, { flag: "a+" });
+                    FS.appendFileSync(
+                        `${__dirname}/../.env`,
+                        `#${text}\nFORGE_DOC_URN=urn:${urn}\n\n`,
+                        { flag: "a+" }
+                    );
                     process.env.FORGE_DOC_URN = `urn:${urn}`;
                 }
                 res.status(200).json(data);
@@ -104,15 +108,17 @@ module.exports = function (router) {
      */
     router.get("/api/token", function (req, res) {
         return forgeToken(req, res)
-            .then(response => res.status(200).json({ access_token: response.forgeToken }))
-            .catch(error => {
+            .then((response) => {
+                return res.status(200).json({ access_token: response.forgeToken });
+            })
+            .catch((error) => {
                 if (error.statusCode && error.error) {
                     res.status(error.statusCode).json(JSON.parse(error.error));
                 } else {
                     res.status(500).send(`Error: ${error}`);
                 }
-            })
-    })
+            });
+    });
 
     /**
      * Wild card handler, need to be the last of the router entry.
@@ -133,27 +139,28 @@ module.exports = function (router) {
                 context.appData.dataStart = process.env.CSV_DATA_START;
                 context.appData.dataEnd = process.env.CSV_DATA_END;
             } else {
-                console.error("variable CSV_DATA_START and CSV_DATA_END is required to use CSV file as a data provider");
-                res.send("variable CSV_DATA_START and CSV_DATA_END is required to use CSV file as a data provider");
+                console.error(
+                    "variable CSV_DATA_START and CSV_DATA_END is required to use CSV file as a data provider"
+                );
+                res.send(
+                    "variable CSV_DATA_START and CSV_DATA_END is required to use CSV file as a data provider"
+                );
             }
         }
 
         if (!process.env.FORGE_DOC_URN) {
-            new Forge()
-                .getHyperionDefault()
-                .then((data) => {
-                    process.env.FORGE_DOC_URN = data.urn;
-                    context.appData.docUrn = data.urn;
+            new Forge().getHyperionDefault().then((data) => {
+                process.env.FORGE_DOC_URN = data.urn;
+                context.appData.docUrn = data.urn;
 
-                    res.status(200);
+                res.status(200);
 
-                    var pageString = App(context);
+                var pageString = App(context);
 
-                    res.setHeader("Cache-Control", "no-cache");
-                    res.send("<!DOCTYPE html>\n" + pageString);
-                })
-        }
-        else {
+                res.setHeader("Cache-Control", "no-cache");
+                res.send("<!DOCTYPE html>\n" + pageString);
+            });
+        } else {
             res.status(200);
 
             var pageString = App(context);

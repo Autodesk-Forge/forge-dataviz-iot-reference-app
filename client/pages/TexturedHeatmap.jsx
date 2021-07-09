@@ -30,17 +30,17 @@ class TexturedHeatmapToolbarExtension extends Autodesk.Viewing.Extension {
 
     onToolbarCreated(toolbar) {
         // Button 1
-        var button1 = new Autodesk.Viewing.UI.Button('TexturedHeatMapPlayBack');
-        button1.addClass('textured-heatmap-playbutton');
-        button1.setToolTip('Playback');
+        var button1 = new Autodesk.Viewing.UI.Button("TexturedHeatMapPlayBack");
+        button1.addClass("textured-heatmap-playbutton");
+        button1.setToolTip("Playback");
 
         // Button 2
-        var button2 = new Autodesk.Viewing.UI.Button('ShowHideSensors');
-        button2.addClass('textured-heatmap-showhide-button');
-        button2.setToolTip('Show/Hide Sensors');
+        var button2 = new Autodesk.Viewing.UI.Button("ShowHideSensors");
+        button2.addClass("textured-heatmap-showhide-button");
+        button2.setToolTip("Show/Hide Sensors");
 
         // SubToolbar
-        this.subToolbar = new Autodesk.Viewing.UI.ControlGroup('textured-heatmap-toolbar');
+        this.subToolbar = new Autodesk.Viewing.UI.ControlGroup("textured-heatmap-toolbar");
         this.subToolbar.addControl(button1);
         this.subToolbar.addControl(button2);
 
@@ -48,7 +48,10 @@ class TexturedHeatmapToolbarExtension extends Autodesk.Viewing.Extension {
     }
 }
 
-Autodesk.Viewing.theExtensionManager.registerExtension('TexturedHeatmapToolbarExtension', TexturedHeatmapToolbarExtension);
+Autodesk.Viewing.theExtensionManager.registerExtension(
+    "TexturedHeatmapToolbarExtension",
+    TexturedHeatmapToolbarExtension
+);
 
 const sensorDescriptors = {
     "Exit 2": {
@@ -106,9 +109,9 @@ const sensorDescriptors = {
 
 /**
  * Returns a random normalized sensor value used to render the heatmap shading.
- * 
- * @param {string} sensorName 
- * @param {string} sensorType 
+ *
+ * @param {string} sensorName
+ * @param {string} sensorType
  */
 const getNormalizedSensorValue = function (sensorName, sensorType) {
     // Returns a normalized value based on the min/max temperatures
@@ -117,7 +120,7 @@ const getNormalizedSensorValue = function (sensorName, sensorType) {
 
 /**
  * An example illustrating how to render a planar heatmap. Can be viewed at: https://hyperion.autodesk.io/texturedmap
- * 
+ *
  * @component
  * @param {Object} props
  * @param {Object} props.appData Data passed to TexturedHeatmap.
@@ -127,7 +130,7 @@ const getNormalizedSensorValue = function (sensorName, sensorType) {
  */
 function TexturedHeatMap(props) {
     const { env, docUrn } = props.appData;
-    const ApplicationContext = props.appContext
+    const ApplicationContext = props.appContext;
     const [dataVizExt, setDataVizExt] = useState(null);
     const [sensorsVisible, setSensorsVisible] = useState(true);
 
@@ -187,7 +190,7 @@ function TexturedHeatMap(props) {
         const deviceType = "thermometer";
         const styleColor = 0xffffff;
         const styleIconUrl = `${ApplicationContext.assetUrlPrefix}/images/thermometer.svg`;
-        const dataVizExtn = Autodesk.DataVisualization.Core
+        const dataVizExtn = Autodesk.DataVisualization.Core;
 
         const thermStyle = new dataVizExtn.ViewableStyle(
             dataVizExtn.ViewableType.SPRITE,
@@ -211,7 +214,11 @@ function TexturedHeatMap(props) {
 
         let viewableDbId = 1;
         devices.forEach((device) => {
-            const viewable = new dataVizExtn.SpriteViewable(device.position, thermStyle, viewableDbId);
+            const viewable = new dataVizExtn.SpriteViewable(
+                device.position,
+                thermStyle,
+                viewableDbId
+            );
             viewableData.addViewable(viewable);
             viewableDbId++;
         });
@@ -221,12 +228,12 @@ function TexturedHeatMap(props) {
     }
 
     /**
-     * `SurfaceShadingData` allows for hierarchical representation of shading data. 
-     * This method generates `SurfaceShadingData` from the given simulation data which 
-     * consists of a linear list of `sensors` on "floor1". When the surface shading 
-     * (i.e. heatmap) is rendered, it will be based on the named `SurfaceShadingNode`, 
-     * which in this case is "floor1". The hierarchical nature of `SurfaceShadingData` 
-     * allows rendering to take place for "floor1" independent of other floors. 
+     * `SurfaceShadingData` allows for hierarchical representation of shading data.
+     * This method generates `SurfaceShadingData` from the given simulation data which
+     * consists of a linear list of `sensors` on "floor1". When the surface shading
+     * (i.e. heatmap) is rendered, it will be based on the named `SurfaceShadingNode`,
+     * which in this case is "floor1". The hierarchical nature of `SurfaceShadingData`
+     * allows rendering to take place for "floor1" independent of other floors.
      *
      * @param {Object} dataItems The data from which `SurfaceShadingData` is to be generated.
      * @param {Model} [model] The optional model that contains sensors' dbIds.
@@ -247,7 +254,11 @@ function TexturedHeatMap(props) {
 
             item.sensors.forEach((sensor) => {
                 // A `SurfaceShadingPoint` represents a physical device (i.e. thermometer) with a position.
-                const shadingPoint = new SurfaceShadingPoint(sensor.id, sensor.position, sensor.sensorTypes);
+                const shadingPoint = new SurfaceShadingPoint(
+                    sensor.id,
+                    sensor.position,
+                    sensor.sensorTypes
+                );
 
                 // If the position is not specified during construction, it can be derived from
                 // the center of geometry of the sensor is being represented by a valid dbId.
@@ -347,10 +358,17 @@ function TexturedHeatMap(props) {
 
         const shadingData = generateSurfaceShadingData(simulationData, data.model);
         shadingData.initialize(data.model);
-        await dataVizExtension.setupSurfaceShading(data.model, shadingData, { type: "PlanarHeatmap", placePosition: "max" });
+        await dataVizExtension.setupSurfaceShading(data.model, shadingData, {
+            type: "PlanarHeatmap",
+            placePosition: "max",
+        });
 
         // Represents temperature range with three color stops.
-        dataVizExtension.registerSurfaceShadingColors("temperature", [0x00ff00, 0xffff00, 0xff0000]);
+        dataVizExtension.registerSurfaceShadingColors("temperature", [
+            0x00ff00,
+            0xffff00,
+            0xff0000,
+        ]);
 
         dataVizExtension.renderSurfaceShading(["floor1"], "temperature", getSensorValue, 300);
         setDataVizExt(dataVizExtension);
@@ -362,7 +380,9 @@ function TexturedHeatMap(props) {
         document.getElementsByClassName("textured-heatmap-playbutton")[0].onclick = startAnimation;
 
         // Play animation when toolbar visiblity button is selected.
-        document.getElementsByClassName("textured-heatmap-showhide-button")[0].onclick = handleShowHideSensors;
+        document.getElementsByClassName(
+            "textured-heatmap-showhide-button"
+        )[0].onclick = handleShowHideSensors;
     }
 
     useEffect(() => {
@@ -371,16 +391,22 @@ function TexturedHeatMap(props) {
         }
     }, [dataVizExt, sensorsVisible]);
 
-    return <Viewer
-        env={env}
-        docUrn={docUrn}
-        onModelLoaded={onModelLoaded}
-        extensions={{
-            "TexturedHeatmapToolbarExtension": {},
-            "Autodesk.DataVisualization": { }
-        }}
-        getToken={async () => await fetch("/api/token").then(res => res.json()).then(data => data.access_token)}
-    />
+    return (
+        <Viewer
+            env={env}
+            docUrn={docUrn}
+            onModelLoaded={onModelLoaded}
+            extensions={{
+                TexturedHeatmapToolbarExtension: {},
+                "Autodesk.DataVisualization": {},
+            }}
+            getToken={async () =>
+                await fetch("/api/token")
+                    .then((res) => res.json())
+                    .then((data) => data.access_token)
+            }
+        />
+    );
 }
 
 export default TexturedHeatMap;

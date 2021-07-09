@@ -107,13 +107,13 @@ const sensorPositions = {
 
 /**
  * An example illustrating how to animate sprite viewables. Can be viewed at: https://hyperion.autodesk.io/animation
- * 
+ *
  * @component
  * @param {Object} props
  * @param {Object} props.appData Data passed to the AnimatedSprites.
  * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
  * @param {string} props.appData.docUrn Document URN of model
- * 
+ *
  * @memberof Autodesk.DataVisualization.Examples
  * @alias Autodesk.DataVisualization.Examples.AnimatedSprites
  */
@@ -155,14 +155,13 @@ function AnimatedSprites(props) {
     async function generateViewableData(dataItems) {
         // Create a visual style shared by all the thermometers since they're the same type.
         const styleColor = 0xffffff;
-        const dataVizExtn = Autodesk.DataVisualization.Core
+        const dataVizExtn = Autodesk.DataVisualization.Core;
 
         const ductFanStyle = new dataVizExtn.ViewableStyle(
             dataVizExtn.ViewableType.SPRITE,
             new THREE.Color(styleColor),
             fan00
         );
-
 
         fans.forEach((fan) => ductFanStyle.preloadSprite(fan));
 
@@ -211,7 +210,7 @@ function AnimatedSprites(props) {
 
     /**
      * Determines a random set of viewable ids that will be animated.
-     * 
+     *
      * @param {SpriteViewable[]} viewables Array of {@link SpriteViewable} in scene.
      * @returns {number[]} Subset of viewable ids to animate.
      */
@@ -239,7 +238,7 @@ function AnimatedSprites(props) {
             });
         }
 
-        const dataVizExtension = viewer.getExtension("Autodesk.DataVisualization")
+        const dataVizExtension = viewer.getExtension("Autodesk.DataVisualization");
 
         if (levelsExtension) {
             levelsExtension.floorSelector.selectFloor(0, true);

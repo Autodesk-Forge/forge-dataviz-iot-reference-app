@@ -1,6 +1,6 @@
 /**
  * Interface file for customer who want to override or add new API routes
- * @example    
+ * @example
  *  router.get("/api/YourAPI", (req, res) => {
  *      res.send("Hello world.");
  *  })
@@ -8,5 +8,4 @@
  */
 
 // eslint-disable-next-line no-unused-vars
-module.exports = function (router) {
-};
+module.exports = function (router) {};

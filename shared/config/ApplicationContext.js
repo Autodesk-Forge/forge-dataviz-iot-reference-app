@@ -3,8 +3,7 @@
  */
 
 // The config param only work for server side.
-var ApplicationContext = function () {
-};
+var ApplicationContext = function () {};
 
 ApplicationContext.prototype.setup = function (config) {
     this.assetUrlPrefix = config.assetUrlPrefix;

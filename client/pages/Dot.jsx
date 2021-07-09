@@ -28,7 +28,7 @@ const devices = [
 
 /**
  * An example illustrating how to add viewables to the scene. Can be viewed at: https://hyperion.autodesk.io/dot
- * 
+ *
  * @component
  * @memberof Autodesk.DataVisualization.Examples
  * @param {Object} props
@@ -40,7 +40,7 @@ const devices = [
  */
 function Dot(props) {
     const { env, docUrn } = props.appData;
-    const ApplicationContext = props.appContext
+    const ApplicationContext = props.appContext;
 
     /**
      * @type {SensorStyleDefinitions}
@@ -94,15 +94,13 @@ function Dot(props) {
 
         /**
          * Called when a user clicks on a Sprite Viewable
-         * @param {Event} event 
+         * @param {Event} event
          */
-        function onItemClick(event) {
-
-        }
+        function onItemClick(/* event */) {}
 
         /**
-         *  Called when a user hovers over a Sprite Viewable 
-         * @param {Event} event 
+         *  Called when a user hovers over a Sprite Viewable
+         * @param {Event} event
          */
         function onItemHovering(event) {
             console.log("Show tooltip here", event.dbId);
@@ -119,8 +117,12 @@ function Dot(props) {
                 env={env}
                 docUrn={docUrn}
                 onModelLoaded={onModelLoaded}
-                extensions={{ "Autodesk.DataVisualization": { } }}
-                getToken={async () => await fetch("/api/token").then(res => res.json()).then(data => data.access_token)}
+                extensions={{ "Autodesk.DataVisualization": {} }}
+                getToken={async () =>
+                    await fetch("/api/token")
+                        .then((res) => res.json())
+                        .then((data) => data.access_token)
+                }
             />
         </React.Fragment>
     );

@@ -1,9 +1,7 @@
 /**
- * This is a sample code to show how to render basic StructureInfo on the screen
+ * This is a sample code to show how to use the getSelectedPoints() API to get a list of JSON objects representing {@link RoomDevice}.
  *
- * Heatmap is the terminology we used to show the corresponding sensor values in the room
- * and this is a step foreward by combine both Dot and ModelStructureInfo to created a combined
- * user experience
+ * The resulting list can be used to add sprite viewables to the model.
  */
 
 import React, { useState, useEffect, useRef } from "react";
@@ -11,29 +9,85 @@ import { Viewer } from "forge-dataviz-iot-react-components";
 import DataHelper from "./DataHelper";
 import { EventTypes } from "forge-dataviz-iot-react-components";
 import { HyperionToolContainer } from "forge-dataviz-iot-react-components";
+import { SelectionTool } from "forge-dataviz-iot-react-components";
 
 class EventBus {}
 
 THREE.EventDispatcher.prototype.apply(EventBus.prototype);
 
 /**
- * An example illustrating how to use the AEC Levels Extension and the
- * {@link HyperionToolContainer} to select floors in a model. Can be viewed
- * at: https://hyperion.autodesk.io/structure
+ * An example illustrating how to use the {@link SelectionTool} to get a list of JSON objects representing {@link RoomDevice}.
+ * Can be viewed at: https://hyperion.autodesk.io/playground
  *
  * @component
  * @param {Object} props
  * @param {Object} props.appData Data passed to application.
  * @param {("AutodeskStaging"|"AutodeskProduction")} props.appData.env Forge API environment
  * @param {string} props.appData.docUrn Document URN of model
+ * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
  *
  * @memberof Autodesk.DataVisualization.Examples
  */
-function StructureInfo(props) {
+function Playground(props) {
     const { env, docUrn } = props.appData;
     const eventBusRef = useRef(new EventBus());
     const [appState, setAppState] = useState({});
-    const selectedLevelRef = useRef();
+    const [selectedLevel, setSelectedLevel] = useState("");
+    const selectedLevelRef = useRef(null);
+    const ApplicationContext = props.appContext;
+    const [devices, setDevices] = useState([]);
+    const devicesRef = useRef(null);
+    const styleMapRef = useRef(null);
+
+    selectedLevelRef.current = selectedLevel;
+    devicesRef.current = devices;
+
+    /**
+     * @type {SensorStyleDefinitions}
+     */
+    const SensorStyleDefinitions = {
+        co2: {
+            url: `${ApplicationContext.assetUrlPrefix}/images/co2.svg`,
+            color: 0xffffff,
+        },
+        temperature: {
+            url: `${ApplicationContext.assetUrlPrefix}/images/thermometer.svg`,
+            color: 0xffffff,
+        },
+        default: {
+            url: `${ApplicationContext.assetUrlPrefix}/images/circle.svg`,
+            color: 0xffffff,
+        },
+    };
+
+    async function updateDevices(newDeviceList) {
+        setDevices(newDeviceList);
+    }
+
+    async function addSprites() {
+        if (appState.dataVizExtn) {
+            // Clear any existing viewables
+            appState.dataVizExtn.removeAllViewables();
+
+            const currDevices = devicesRef.current;
+            const DATAVIZEXTN = Autodesk.DataVisualization.Core;
+
+            // Add Viewables
+            const viewableData = new DATAVIZEXTN.ViewableData();
+            viewableData.spriteSize = 16;
+            let startId = 1;
+
+            currDevices.forEach((device) => {
+                let style = styleMapRef.current[device.type] || styleMapRef.current["default"];
+                const viewable = new DATAVIZEXTN.SpriteViewable(device.position, style, startId);
+                viewableData.addViewable(viewable);
+                startId++;
+            });
+
+            await viewableData.finish();
+            appState.dataVizExtn.addViewables(viewableData);
+        }
+    }
 
     /**
      * Handles `Autodesk.Viewing.GEOMETRY_LOADED_EVENT` event that is sent when a model has been completely loaded in the viewer.
@@ -43,6 +97,19 @@ function StructureInfo(props) {
      */
     async function onModelLoaded(viewer, data) {
         const dataVizExtn = viewer.getExtension("Autodesk.DataVisualization");
+        const DATAVIZEXTN = Autodesk.DataVisualization.Core;
+        var styleMap = {};
+
+        // Create model-to-style map from style definitions.
+        Object.entries(SensorStyleDefinitions).forEach(([type, styleDef]) => {
+            styleMap[type] = new DATAVIZEXTN.ViewableStyle(
+                DATAVIZEXTN.ViewableType.SPRITE,
+                new THREE.Color(styleDef.color),
+                styleDef.url
+            );
+        });
+
+        styleMapRef.current = styleMap;
 
         // Get Model level info
         let viewerDocument = data.model.getDocumentNode().getDocument();
@@ -53,11 +120,16 @@ function StructureInfo(props) {
                 doNotCreateUI: true,
             });
         }
+        const floorData = levelsExt.floorSelector.floorData;
+        const floor = floorData[0];
+        levelsExt.floorSelector.selectFloor(floor.index, true);
 
         // Model Structure Info
         let dataHelper = new DataHelper();
-        let shadingData = await dataHelper.createShadingGroupByFloor(viewer, data.model, []);
+        let shadingData = await dataHelper.createShadingGroupByFloor(viewer, data.model, devices);
         const levelInfo = dataHelper.createDeviceTree(shadingData, true);
+
+        setSelectedLevel(levelInfo[0]);
 
         setAppState({
             viewer,
@@ -75,6 +147,7 @@ function StructureInfo(props) {
 
                 if (selectedLevelRef.current && selectedLevelRef.current.id == event.data.id) {
                     floorSelector.selectFloor();
+                    setSelectedLevel(null);
                     selectedLevelRef.current = null;
                 } else {
                     if (floorSelector.floorData) {
@@ -83,6 +156,7 @@ function StructureInfo(props) {
                         );
                         if (floor) {
                             floorSelector.selectFloor(floor.index, true);
+                            setSelectedLevel(event.data);
                             selectedLevelRef.current = event.data;
                         }
                     }
@@ -90,6 +164,8 @@ function StructureInfo(props) {
             }
         });
     }, [appState.levelsExt]);
+
+    addSprites();
 
     return (
         <React.Fragment>
@@ -113,8 +189,11 @@ function StructureInfo(props) {
                     selectedGroupNode={selectedLevelRef.current}
                 />
             )}
+            {appState && appState.viewer && (
+                <SelectionTool viewer={appState.viewer} updateDevices={updateDevices} />
+            )}
         </React.Fragment>
     );
 }
 
-export default StructureInfo;
+export default Playground;

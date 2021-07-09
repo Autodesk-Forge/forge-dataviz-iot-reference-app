@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 function timeEqual(a, b) {
     return a && b && a.getTime() == b.getTime();
-};
+}
 
 /**
  * Converts a Date object into equivalent Epoch seconds
@@ -13,7 +13,7 @@ function timeEqual(a, b) {
 function getTimeInEpochSeconds(time) {
     const epochSeconds = new Date(time).getTime() / 1000.0;
     return ~~epochSeconds; // Equivalent to Math.floor()
-};
+}
 
 /**
  * Gets the lower and upper bounds of a number series, padded by
@@ -43,7 +43,7 @@ function getPaddedRange(series, percentage = 0) {
         min: Math.floor(min - padding),
         max: Math.ceil(max + padding),
     };
-};
+}
 
 /**
  * Gets the index of an entry in the array whose value is the
@@ -69,7 +69,7 @@ function findClosestIndex(entries, entry) {
     }
 
     return result;
-};
+}
 
 function getClosestValue(av, entry, propName = "avgValues") {
     let tsValues = av.tsValues;
@@ -99,7 +99,7 @@ function getClosestValue(av, entry, propName = "avgValues") {
     } else {
         return smallSide || largeSide || 0;
     }
-};
+}
 
 function clamp(value, lower, upper) {
     if (value == undefined) {
@@ -113,7 +113,7 @@ function clamp(value, lower, upper) {
     } else {
         return value;
     }
-};
+}
 
 /**
  * Convert ShadingData to DigitalTwinGraph
@@ -217,7 +217,11 @@ function convertSurfaceShadingDataToDigitalTwinGraph(surfaceShadingData) {
         if (node.id == undefined) return uuidv4();
         // Remove invalid ID Characters
         // Forward slash (/) is valid but will be re-encoded to a separate value
-        return node.id.replaceAll(" ", "-").replaceAll("[", "(").replaceAll("]", ")").replaceAll("/", "-");
+        return node.id
+            .replaceAll(" ", "-")
+            .replaceAll("[", "(")
+            .replaceAll("]", ")")
+            .replaceAll("/", "-");
     }
     function traverse(root, level = 0) {
         let modelId = getOrCreateModel(root, level);
@@ -228,7 +232,11 @@ function convertSurfaceShadingDataToDigitalTwinGraph(surfaceShadingData) {
                 let childModelId = getOrCreateModel(child, level + 1, modelId);
                 const childDtId = idToDtId(child);
                 createTwin(childDtId, childModelId, child.id);
-                createRelationship(parentDtId, childDtId, `${levelToType(level + 1).toLowerCase()}s`);
+                createRelationship(
+                    parentDtId,
+                    childDtId,
+                    `${levelToType(level + 1).toLowerCase()}s`
+                );
                 traverse(child, level + 1);
             }
         } else {
@@ -236,13 +244,17 @@ function convertSurfaceShadingDataToDigitalTwinGraph(surfaceShadingData) {
                 let childModelId = getOrCreateModel(child, level + 1, modelId);
                 const childDtId = idToDtId(child);
                 createTwin(childDtId, childModelId, child.id);
-                createRelationship(parentDtId, childDtId, `${levelToType(level + 1).toLowerCase()}s`);
+                createRelationship(
+                    parentDtId,
+                    childDtId,
+                    `${levelToType(level + 1).toLowerCase()}s`
+                );
             }
         }
     }
     traverse(surfaceShadingData);
     return twinGraph;
-};
+}
 
 export {
     timeEqual,
@@ -251,5 +263,5 @@ export {
     findClosestIndex,
     getClosestValue,
     clamp,
-    convertSurfaceShadingDataToDigitalTwinGraph
-}
+    convertSurfaceShadingDataToDigitalTwinGraph,
+};

@@ -75,7 +75,12 @@ class Forge {
                         };
 
                         try {
-                            await bucketApi.createBucket(bucketBody, {}, oAuth2TwoLegged, credentials);
+                            await bucketApi.createBucket(
+                                bucketBody,
+                                {},
+                                oAuth2TwoLegged,
+                                credentials
+                            );
                         } catch (err) {
                             console.error(err);
                         }
@@ -83,10 +88,20 @@ class Forge {
                 }
 
                 objectsApi
-                    .uploadObject(targetBucket, filename, buffer.length, buffer, {}, oAuth2TwoLegged, credentials)
+                    .uploadObject(
+                        targetBucket,
+                        filename,
+                        buffer.length,
+                        buffer,
+                        {},
+                        oAuth2TwoLegged,
+                        credentials
+                    )
                     .then(
                         function (data) {
-                            let encodedURN = Buffer.from(data["body"]["objectId"]).toString("base64");
+                            let encodedURN = Buffer.from(data["body"]["objectId"]).toString(
+                                "base64"
+                            );
                             let job = new ForgeSDK.JobPayload();
                             job.input = new ForgeSDK.JobPayloadInput();
                             job.input.urn = encodedURN;
@@ -114,15 +129,17 @@ class Forge {
                                 }
                             );
                             // Start translation Job
-                            derivativesApi.translate(job, { xAdsForce: true }, oAuth2TwoLegged, credentials).then(
-                                function (data) {
-                                    callback(data);
-                                },
-                                function (err) {
-                                    console.error(err);
-                                    error(err);
-                                }
-                            );
+                            derivativesApi
+                                .translate(job, { xAdsForce: true }, oAuth2TwoLegged, credentials)
+                                .then(
+                                    function (data) {
+                                        callback(data);
+                                    },
+                                    function (err) {
+                                        console.error(err);
+                                        error(err);
+                                    }
+                                );
                         },
                         function (err) {
                             console.error(err);

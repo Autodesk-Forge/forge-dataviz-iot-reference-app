@@ -9,6 +9,9 @@ module.exports = function (router) {
         let deviceModelFile, deviceFile;
 
         const syntheticDataRoot = `${__dirname}/../gateways/synthetic-data`;
+        const syntheticModels = `${syntheticDataRoot}/device-models.json`;
+        const syntheticDevices = `${syntheticDataRoot}/devices.json`;
+        const syntheticConfig = `${syntheticDataRoot}/config.json`;
 
         if (!provider || !project) {
             res.status(400).send("Missing query parameters: provider, project");
@@ -17,12 +20,12 @@ module.exports = function (router) {
                 case "aws":
                     break;
                 case "azure":
-                    deviceModelFile = process.env.DEVICE_MODEL_JSON || `${syntheticDataRoot}/device-models.json`;
+                    deviceModelFile = process.env.DEVICE_MODEL_JSON || syntheticModels;
                     req.dataGateway = new AzureGateway(deviceModelFile);
                     break;
-                case "csv":
-                    deviceModelFile = process.env.CSV_MODEL_JSON || `${syntheticDataRoot}/device-models.json`;
-                    deviceFile = process.env.CSV_DEVICE_JSON || `${syntheticDataRoot}/devices.json`;
+                case "csv": {
+                    deviceModelFile = process.env.CSV_MODEL_JSON || syntheticModels;
+                    deviceFile = process.env.CSV_DEVICE_JSON || syntheticDevices;
                     const dataFolder = process.env.CSV_FOLDER || `${__dirname}/../gateways/csv`;
                     const delimiter = process.env.CSV_DELIMITER || "\t";
                     const lineBreak = process.env.CSV_LINE_BREAK || "\n";
@@ -42,12 +45,14 @@ module.exports = function (router) {
                         fileExtension
                     );
                     break;
-                default:
-                    deviceModelFile = process.env.DEVICE_MODEL_JSON || `${syntheticDataRoot}/device-models.json`;
-                    deviceFile = process.env.DEVICE_JSON || `${syntheticDataRoot}/devices.json`;
-                    const configFile = process.env.SYNTHETIC_CONFIG || `${syntheticDataRoot}/config.json`
+                }
+                default: {
+                    deviceModelFile = process.env.DEVICE_MODEL_JSON || syntheticModels;
+                    deviceFile = process.env.DEVICE_JSON || syntheticDevices;
+                    const configFile = process.env.SYNTHETIC_CONFIG || syntheticConfig;
                     req.dataGateway = new SyntheticGateway(deviceModelFile, deviceFile, configFile);
                     break;
+                }
             }
 
             next();
@@ -115,7 +120,9 @@ module.exports = function (router) {
         const resolution = req.query.resolution;
 
         if (!device || !property || !startTime || !endTime || !resolution) {
-            res.status(400).send("Missing query parameters: device, property, startTime, endTime, resolution");
+            res.status(400).send(
+                "Missing query parameters: device, property, startTime, endTime, resolution"
+            );
             return;
         }
 

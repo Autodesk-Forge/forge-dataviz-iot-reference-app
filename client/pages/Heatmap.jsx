@@ -34,7 +34,7 @@ const devices = [
 
 /**
  * An example illustrating how to render a heatmap. Can be viewed at: https://hyperion.autodesk.io/heatmap
- * 
+ *
  * @component
  * @param {Object} props
  * @param {Object} props.appData Data passed to the application.
@@ -42,12 +42,12 @@ const devices = [
  * @param {string} props.appData.docUrn Document URN of model
  * @param {Object} props.appContext Contains base urls used to query assets, LMV, data etc.
  * @param {string} [props.appContext.assetUrlPrefix] The url used to query assets
- * 
+ *
  * @memberof Autodesk.DataVisualization.Examples
  */
 function Heatmap(props) {
     const { env, docUrn } = props.appData;
-    const ApplicationContext = props.appContext
+    const ApplicationContext = props.appContext;
 
     /**
      * @type {SensorStyleDefinitions}
@@ -123,7 +123,7 @@ function Heatmap(props) {
 
         /**
          * Interface for application to decide what the current value for the heatmap is.
-         * 
+         *
          * @param {string} device device id
          * @param {string} sensorType sensor type
          */
@@ -143,8 +143,12 @@ function Heatmap(props) {
                 env={env}
                 docUrn={docUrn}
                 onModelLoaded={onModelLoaded}
-                extensions={{ "Autodesk.DataVisualization": { } }}
-                getToken={async () => await fetch("/api/token").then(res => res.json()).then(data => data.access_token)}
+                extensions={{ "Autodesk.DataVisualization": {} }}
+                getToken={async () =>
+                    await fetch("/api/token")
+                        .then((res) => res.json())
+                        .then((data) => data.access_token)
+                }
             />
         </React.Fragment>
     );
