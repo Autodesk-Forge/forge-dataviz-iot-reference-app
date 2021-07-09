@@ -60,6 +60,6 @@
         "socket.io-client": "^3.0.4",
         "uuid": "^8.3.2",
         "forge-dataviz-iot-data-modules": "0.1.10",
-        "forge-dataviz-iot-react-components": "0.1.15"
+        "forge-dataviz-iot-react-components": "0.1.16"
     }
 }
