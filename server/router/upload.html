@@ -1,4 +1,16 @@
-<form>
+<style type="text/css">
+    @font-face {
+    font-family: 'ArtifaktElement';
+    src:url('https://fonts.autodesk.com/ArtifaktElement/EOT/Artifakt%20Element%20Regular.eot'); /* IE9 Compat Modes */
+    src:url('https://fonts.autodesk.com/ArtifaktElement/EOT/Artifakt%20Element%20Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        local('Artifakt Element Regular'), local('ArtifaktElement-Regular'), url('https://fonts.autodesk.com/ArtifaktElement/WOFF2/Artifakt%20Element%20Regular.woff2') format('woff2'), /* Super Modern Browsers */
+        local('Artifakt Element Regular'), local('ArtifaktElement-Regular'), url('https://fonts.autodesk.com/ArtifaktElement/WOFF/Artifakt%20Element%20Regular.woff') format('woff'), /* Pretty Modern Browsers */
+        local('Artifakt Element Regular'), local('ArtifaktElement-Regular'), url('https://fonts.autodesk.com/ArtifaktElement/TTF/Artifakt%20Element%20Regular.ttf')  format('truetype'); /* Safari, Android, iOS */
+    font-weight: normal;
+    font-style: normal;
+}
+    </style>
+<form style="font-family: ArtifaktElement">
     <div>
         <label>Select a model to upload and translate:</label>
         <input type="file" id="file-input" name="model"/>
@@ -9,7 +21,17 @@
     </div>
     <div id="status"></div>
     <div id="urn"></div>
+    <div id='playground' style="font-family: ArtifaktElement; padding-top:10px; display:none">
+        <span> You can use the <a href="/playground">Hyperion Playground </a> to add sprites(dots) to your uploaded model. </br>Copy the generated Device list to generate SurfaceShadingData</span>
+    </div>
 </form>
+<div id='BimLogin' style="font-family: ArtifaktElement; padding-top: 10px;padding-bottom: 10px;"> 
+    Already have your model on BIM360/ACC? </br>
+   <span>
+    <a href="/bim360"> Login to BIM</a> and select your model.
+   </span> 
+</div>
+
 <script type="text/javascript">
 
     // Select your input type file and store it in a variable
@@ -53,6 +75,7 @@
             console.log(result);
             document.getElementById("status").innerHTML = "Translation status: " + result["body"]["status"] +", " + result["body"]["progress"];
             if (result["body"]["status"] === "pending" || result["body"]["status"] == "inprogress") {
+                document.getElementById("playground").style.display = 'block'
                 sleep(25000).then(() => pollJob(urn));
             } else {
                 if(result["body"]["status"] === "success") {

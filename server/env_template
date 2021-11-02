@@ -2,6 +2,7 @@ FORGE_CLIENT_ID=
 FORGE_CLIENT_SECRET=
 FORGE_ENV=AutodeskProduction
 FORGE_API_URL=https://developer.api.autodesk.com
+FORGE_CALLBACK_URL=http://localhost:9000/oauth/callback
 
 FORGE_BUCKET=
 ENV=local
