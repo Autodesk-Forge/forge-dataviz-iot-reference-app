@@ -1,6 +1,6 @@
 {
     "name": "forge-dataviz-iot-reference-app",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "Autodesk Forge Viewer Data Visualization Sample Application",
     "main": "server/localserver.js",
     "scripts": {
