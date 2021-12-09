@@ -120,9 +120,14 @@ function Playground(props) {
                 doNotCreateUI: true,
             });
         }
-        const floorData = levelsExt.floorSelector.floorData;
-        const floor = floorData[0];
-        levelsExt.floorSelector.selectFloor(floor.index, true);
+
+        if (levelsExt && levelsExt.floorSelector) {
+            const floorData = levelsExt.floorSelector.floorData;
+            if (floorData && floorData.length) {
+                const floor = floorData[0];
+                levelsExt.floorSelector.selectFloor(floor.index, true);
+            }
+        }
 
         // Model Structure Info
         let dataHelper = new DataHelper();
