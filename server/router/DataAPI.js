@@ -1,6 +1,7 @@
 const { CsvDataGateway } = require("forge-dataviz-iot-data-modules/server");
 const { SyntheticGateway } = require("forge-dataviz-iot-data-modules/server");
 const { AzureGateway } = require("forge-dataviz-iot-data-modules/server");
+const { JsonDbSyntheticGateway} = require("../gateways/json-db/Hyperion.Server.JsonDbSyntheticGateway");
 
 module.exports = function (router) {
     function gatewayFactory(req, res, next) {
@@ -46,6 +47,12 @@ module.exports = function (router) {
                     );
                     break;
                 }
+                case "json":
+                    const jsonDbFile = process.env.JSON_DB || `${__dirname}/../gateways/json-db/db.json`;
+                    const configFile = process.env.SYNTHETIC_CONFIG || syntheticConfig;
+
+                    req.dataGateway = new JsonDbSyntheticGateway(jsonDbFile, configFile);
+                    break;
                 default: {
                     deviceModelFile = process.env.DEVICE_MODEL_JSON || syntheticModels;
                     deviceFile = process.env.DEVICE_JSON || syntheticDevices;
