@@ -113,6 +113,56 @@ module.exports = function (router) {
             });
     });
 
+    router.post("/api/devices", gatewayFactory, setCORS, function (req, res) {
+        /** @type {DataGateway} */
+        const dataGateway = req.dataGateway;
+
+        dataGateway
+            .addDevice(req.body)
+            .then((device) => {
+                setCacheHeader(res, 60 * 60 * 4);
+                res.status(201).json(device);
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send(error);
+            });
+    });
+
+    router.patch("/api/devices/:id", gatewayFactory, setCORS, function (req, res) {
+        /** @type {DataGateway} */
+        const dataGateway = req.dataGateway;
+        const code = req.params.id;
+
+        dataGateway
+            .updateDevice(code, req.body)
+            .then((device) => {
+                setCacheHeader(res, 60 * 60 * 4);
+                res.status(200).json(device);
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send(error);
+            });
+    });
+
+    router.delete("/api/devices/:id", gatewayFactory, setCORS, function (req, res) {
+        /** @type {DataGateway} */
+        const dataGateway = req.dataGateway;
+        const code = req.params.id;
+
+        dataGateway
+            .removeDevice(code)
+            .then((device) => {
+                setCacheHeader(res, 60 * 60 * 4);
+                res.status(200).json(device);
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send(error);
+            });
+    });
+
     /**
      * Temporary handler to return aggregated data for a given device, its property,
      * and time window. This handler has obviously omitted a ton of validation as it

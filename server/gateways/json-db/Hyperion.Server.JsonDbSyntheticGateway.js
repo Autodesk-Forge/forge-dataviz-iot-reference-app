@@ -307,6 +307,84 @@ class JsonDbSyntheticGateway extends DataGateway {
             stdDev: stdDevValues.map((v) => parseFloat(v.toFixed(2))),
         };
     }
+
+    async addDevice(device) {
+        let resource;
+
+        let deviceModel = this.db.get('deviceModels').find({ code: device.deviceModelId }).value();
+
+        if (!deviceModel)
+            throw `Device Model with given id \`${device.deviceModelId}\` not found`;
+
+        const data = {
+            code: device.id,
+            name: device.name,
+            position: Object.assign({}, device.position),
+            lastActivityTime: device.lastActivityTime,
+            deviceModelId: deviceModel.id
+        };
+
+        if (this.options._isFake) {
+            const id = this.db.get('devices').createId().value();
+            resource = { ...data, id };
+        } else {
+            resource = this.db.get('devices').insert(data).value();
+        }
+
+        this.db.write();
+
+        return resource;
+    }
+
+    async updateDevice(code, data) {
+        let resource;
+
+        delete data.id;
+        delete data.deviceModelId;
+
+        if (this.options._isFake) {
+            resource = this.db.get('devices').find({ code }).value();
+            resource = { ...resource, ...data };
+        } else {
+            let resourceInDb = this.db.get('devices').find({ code }).value();
+
+            if (!resourceInDb)
+                throw `Device with given id \`${code}\` not found`;
+
+            let chain = this.db.get('devices');
+            chain = chain.updateById(resourceInDb.id, data);
+            resource = chain.value();
+        }
+
+        this.db.write();
+
+        return resource;
+    }
+
+    async removeDevice(code) {
+        let resource;
+
+        if (this.options._isFake) {
+            resource = this.db.get('devices').value();
+        } else {
+            let resourceInDb = this.db.get('devices').findLast({ code }).value();
+
+            if (!resourceInDb)
+                throw `Device with given id \`${code}\` not found`;
+
+            resource = this.db.get('devices').removeById(resourceInDb.id).value();
+
+            // Remove dependents documents
+            const removable = this.db._.getRemovable(this.db.getState(), this.options);
+            removable.forEach((item) => {
+                this.db.get(item.name).removeById(item.id).value();
+            });
+        }
+
+        this.db.write();
+
+        return resource;
+    }
 }
 
 module.exports = {
