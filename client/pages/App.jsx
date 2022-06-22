@@ -13,6 +13,7 @@ import StructureInfo from "./StructureInfo.jsx";
 import Navisworks from "./Navisworks.jsx";
 import CustomPage from "./CustomPage.jsx";
 import Playground from "./Playground.jsx";
+import SensorManage from "./SensorManage.jsx";
 
 /**
  *
@@ -61,6 +62,9 @@ function App(props) {
                 </Route>
                 <Route path="/playground">
                     <Playground {...props} />
+                </Route>
+                <Route path="/sensormanage">
+                    <SensorManage {...props} />
                 </Route>
                 <Route path="/">
                     <ReferenceApp {...props} />

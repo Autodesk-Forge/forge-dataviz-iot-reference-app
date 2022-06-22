@@ -1,0 +1,407 @@
+{
+    "deviceModels": [
+        {
+            "id": 1,
+            "code": "d370a293-4bd5-4bdb-a3df-376dc131d44c",
+            "name": "Human Comfort Sensor",
+            "description": "Monitors indoor air quality by measuring levels of Carbon Dioxide (CO2), temperature, and humidity."
+        }
+    ],
+    "properties": [
+        {
+            "id": 1,
+            "code": "Temperature",
+            "name": "Temperature",
+            "description": "External temperature in Fahrenheit",
+            "type": "double",
+            "unit": "Celsius",
+            "rangeMin": "18.00",
+            "rangeMax": "28.00",
+            "deviceModelId": 1
+        },
+        {
+            "id": 2,
+            "code": "Humidity",
+            "name": "Humidity",
+            "description": "Relative humidity in percentage",
+            "type": "double",
+            "unit": "%RH",
+            "rangeMin": "23.09",
+            "rangeMax": "49.09",
+            "deviceModelId": 1
+        },
+        {
+            "id": 3,
+            "code": "CO₂",
+            "name": "CO₂",
+            "description": "Level of carbon dioxide (CO₂)",
+            "type": "double",
+            "unit": "ppm",
+            "rangeMin": "482.81",
+            "rangeMax": "640.00",
+            "deviceModelId": 1
+        }
+    ],
+    "devices": [
+        {
+            "id": 1,
+            "code": "Hyperion-24",
+            "name": "Instruction 313",
+            "position": {
+                "x": "-157",
+                "y": " -68",
+                "z": " 15"
+            },
+            "lastActivityTime": "2020-10-15T02:43:14.8786418Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 2,
+            "code": "Hyperion-12",
+            "name": "Lobby 216 South",
+            "position": {
+                "x": "-130",
+                "y": " -9",
+                "z": " 2.5"
+            },
+            "lastActivityTime": "2020-10-15T02:43:10.4780964Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 2,
+            "code": "Hyperion-5",
+            "name": "Instruction 108",
+            "position": {
+                "x": "-84",
+                "y": " -62",
+                "z": " -9.6"
+            },
+            "lastActivityTime": "2020-10-15T02:43:07.8094150Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 3,
+            "code": "Hyperion-9",
+            "name": "Cafeteria 121 East",
+            "position": {
+                "x": "-130",
+                "y": " 92",
+                "z": " -9.6"
+            },
+            "lastActivityTime": "2020-10-15T02:43:09.1226169Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 4,
+            "code": "Hyperion-6",
+            "name": "Lobby 102 North",
+            "position": {
+                "x": "-130",
+                "y": " 33",
+                "z": " -9.6"
+            },
+            "lastActivityTime": "2020-10-15T02:43:08.1371392Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 5,
+            "code": "Hyperion-14",
+            "name": "Lounge 223",
+            "position": {
+                "x": "-156",
+                "y": " 84",
+                "z": " 2.5"
+            },
+            "lastActivityTime": "2020-10-15T02:43:11.4059920Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 6,
+            "code": "Hyperion-19",
+            "name": "Corridor 234",
+            "position": {
+                "x": "-110",
+                "y": " 68",
+                "z": " 2.5"
+            },
+            "lastActivityTime": "2020-10-15T02:43:13.2109273Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 7,
+            "code": "Hyperion-20",
+            "name": "Instruction 204",
+            "position": {
+                "x": "0",
+                "y": " -62",
+                "z": " 2.5"
+            },
+            "lastActivityTime": "2020-10-15T02:43:13.5130686Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 8,
+            "code": "Hyperion-23",
+            "name": "Open Office 321",
+            "position": {
+                "x": "-156",
+                "y": " 83",
+                "z": " 15"
+            },
+            "lastActivityTime": "2020-10-15T02:43:14.5351640Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 9,
+            "code": "Hyperion-8",
+            "name": "Cafeteria 121 West",
+            "position": {
+                "x": "-162",
+                "y": " 86",
+                "z": " -9.6"
+            },
+            "lastActivityTime": "2020-10-15T02:43:08.7929662Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 10,
+            "code": "Hyperion-1",
+            "name": "Conference 103",
+            "position": {
+                "x": "26",
+                "y": " -63",
+                "z": " -9.6"
+            },
+            "lastActivityTime": "2020-10-15T02:43:06.4432973Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 11,
+            "code": "Hyperion-10",
+            "name": "Conference 123",
+            "position": {
+                "x": "-90",
+                "y": " 88",
+                "z": " -9.6"
+            },
+            "lastActivityTime": "2020-10-15T02:43:09.4820947Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 12,
+            "code": "Hyperion-15",
+            "name": "Computer Lab 209",
+            "position": {
+                "x": "-83",
+                "y": " -63",
+                "z": " 2.5"
+            },
+            "lastActivityTime": "2020-10-15T02:43:11.7762512Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 13,
+            "code": "Hyperion-11",
+            "name": "Lobby 216 North",
+            "position": {
+                "x": "-130",
+                "y": " 33",
+                "z": " 2.5"
+            },
+            "lastActivityTime": "2020-10-15T02:43:10.1324428Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 14,
+            "code": "Hyperion-7",
+            "name": "Lobby 102 South",
+            "position": {
+                "x": "-130",
+                "y": " -9",
+                "z": " -9.6"
+            },
+            "lastActivityTime": "2020-10-15T02:43:08.4611324Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 15,
+            "code": "Hyperion-13",
+            "name": "Instruction 218",
+            "position": {
+                "x": "-156",
+                "y": " -58",
+                "z": " 2.5"
+            },
+            "lastActivityTime": "2020-10-15T02:43:10.8555447Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 16,
+            "code": "Hyperion-25",
+            "name": "Instruction 314",
+            "position": {
+                "x": "-156",
+                "y": " -27",
+                "z": " 15"
+            },
+            "lastActivityTime": "2020-10-15T02:43:15.1934965Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 17,
+            "code": "Hyperion-17",
+            "name": "Computer Lab 222",
+            "position": {
+                "x": "-158",
+                "y": " 46",
+                "z": " 2.5"
+            },
+            "lastActivityTime": "2020-10-15T02:43:12.4906398Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 18,
+            "code": "Hyperion-27",
+            "name": "Instruction 302",
+            "position": {
+                "x": "20",
+                "y": " -62",
+                "z": " 15"
+            },
+            "lastActivityTime": "2020-10-15T02:43:15.8973538Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 19,
+            "code": "Hyperion-22",
+            "name": "Lobby 318 South",
+            "position": {
+                "x": "-130",
+                "y": " -9",
+                "z": " 15"
+            },
+            "lastActivityTime": "2020-10-15T02:43:14.2078317Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 20,
+            "code": "Hyperion-4",
+            "name": "Instruction 106",
+            "position": {
+                "x": "-54",
+                "y": " -63",
+                "z": " -9.6"
+            },
+            "lastActivityTime": "2020-10-15T02:43:07.4392732Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 21,
+            "code": "Hyperion-28",
+            "name": "Conference 325",
+            "position": {
+                "x": "-73",
+                "y": " 88",
+                "z": " 15"
+            },
+            "lastActivityTime": "2020-10-15T02:43:16.2335228Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 22,
+            "code": "Hyperion-18",
+            "name": "Corridor 225",
+            "position": {
+                "x": "-65",
+                "y": " -48",
+                "z": " 2.5"
+            },
+            "lastActivityTime": "2020-10-15T02:43:12.8303034Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 23,
+            "code": "Hyperion-3",
+            "name": "Instruction 105",
+            "position": {
+                "x": "-25",
+                "y": " -63",
+                "z": " -9.6"
+            },
+            "lastActivityTime": "2020-10-15T02:43:07.0922422Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 24,
+            "code": "Hyperion-30",
+            "name": "Instruction 304",
+            "position": {
+                "x": "-31",
+                "y": " -62",
+                "z": " 15"
+            },
+            "lastActivityTime": "2020-10-15T02:43:16.9245294Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 25,
+            "code": "Hyperion-16",
+            "name": "Drafting 208",
+            "position": {
+                "x": "-57.5",
+                "y": " -62.5",
+                "z": " 2.5"
+            },
+            "lastActivityTime": "2020-10-15T02:43:12.1570772Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 26,
+            "code": "Hyperion-29",
+            "name": "Media Review 319",
+            "position": {
+                "x": "-156",
+                "y": " 27",
+                "z": " 15"
+            },
+            "lastActivityTime": "2020-10-15T02:43:16.5871795Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 27,
+            "code": "Hyperion-21",
+            "name": "Lobby 318 North",
+            "position": {
+                "x": "-130",
+                "y": " 33",
+                "z": " 15"
+            },
+            "lastActivityTime": "2020-10-15T02:43:13.8539961Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 28,
+            "code": "Hyperion-26",
+            "name": "Instruction 306",
+            "position": {
+                "x": "-83",
+                "y": " -62",
+                "z": " 15"
+            },
+            "lastActivityTime": "2020-10-15T02:43:15.5333298Z",
+            "deviceModelId": 1
+        },
+        {
+            "id": 29,
+            "code": "Hyperion-2",
+            "name": "Instruction 115",
+            "position": {
+                "x": "-158",
+                "y": " -56",
+                "z": " -9.6"
+            },
+            "lastActivityTime": "2020-10-15T02:43:06.7621884Z",
+            "deviceModelId": 1
+        }
+    ]
+}
