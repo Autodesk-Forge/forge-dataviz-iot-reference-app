@@ -1,3 +1,5 @@
+> This sample has been replaced by https://github.com/autodesk-platform-services/aps-iot-extensions-demo.
+
 # forge-dataviz-iot-reference-app
 
 ![Application](docs/dataviz-intro.jpg)
