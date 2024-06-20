@@ -1,6 +1,7 @@
 const { CsvDataGateway } = require("forge-dataviz-iot-data-modules/server");
 const { SyntheticGateway } = require("forge-dataviz-iot-data-modules/server");
 const { AzureGateway } = require("forge-dataviz-iot-data-modules/server");
+const { JsonDbSyntheticGateway} = require("../gateways/json-db/Hyperion.Server.JsonDbSyntheticGateway");
 
 module.exports = function (router) {
     function gatewayFactory(req, res, next) {
@@ -46,6 +47,12 @@ module.exports = function (router) {
                     );
                     break;
                 }
+                case "json":
+                    const jsonDbFile = process.env.JSON_DB || `${__dirname}/../gateways/json-db/db.json`;
+                    const configFile = process.env.SYNTHETIC_CONFIG || syntheticConfig;
+
+                    req.dataGateway = new JsonDbSyntheticGateway(jsonDbFile, configFile);
+                    break;
                 default: {
                     deviceModelFile = process.env.DEVICE_MODEL_JSON || syntheticModels;
                     deviceFile = process.env.DEVICE_JSON || syntheticDevices;
@@ -99,6 +106,56 @@ module.exports = function (router) {
             .then((devices) => {
                 setCacheHeader(res, 60 * 60 * 4);
                 res.status(200).json(devices);
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send(error);
+            });
+    });
+
+    router.post("/api/devices", gatewayFactory, setCORS, function (req, res) {
+        /** @type {DataGateway} */
+        const dataGateway = req.dataGateway;
+
+        dataGateway
+            .addDevice(req.body)
+            .then((device) => {
+                setCacheHeader(res, 60 * 60 * 4);
+                res.status(201).json(device);
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send(error);
+            });
+    });
+
+    router.patch("/api/devices/:id", gatewayFactory, setCORS, function (req, res) {
+        /** @type {DataGateway} */
+        const dataGateway = req.dataGateway;
+        const code = req.params.id;
+
+        dataGateway
+            .updateDevice(code, req.body)
+            .then((device) => {
+                setCacheHeader(res, 60 * 60 * 4);
+                res.status(200).json(device);
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send(error);
+            });
+    });
+
+    router.delete("/api/devices/:id", gatewayFactory, setCORS, function (req, res) {
+        /** @type {DataGateway} */
+        const dataGateway = req.dataGateway;
+        const code = req.params.id;
+
+        dataGateway
+            .removeDevice(code)
+            .then((device) => {
+                setCacheHeader(res, 60 * 60 * 4);
+                res.status(200).json(device);
             })
             .catch((error) => {
                 console.error(error);
